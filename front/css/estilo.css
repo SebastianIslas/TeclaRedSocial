@@ -1,0 +1,70 @@
+section div a{
+    color: #000;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-weight: 700;
+    line-height: 1.2;
+    font-size: calc(1.375rem + 1.5vw);
+    text-decoration: none;
+}
+
+
+/* Login */
+.container-login {
+    margin: -1rem 7rem;
+    min-height: 300px;
+    padding: 50px;
+    position: relative;
+    background-color: #ffffff; /* Color de fondo */
+    border-radius: 1rem;
+}
+
+
+@media (max-width: 800px) {
+    .container-login {
+        margin: -1rem 3rem;
+        padding: 10px;
+    }
+}
+
+input{
+    height: 3rem;
+    border-radius: 1rem;
+    width: 50%;
+    margin: 1rem;
+    padding: 1rem;
+    border: 0px;
+    border: 1px solid rgb(158, 158, 158);
+    font-size: 1.5rem;
+    background-color: transparent;
+    color: #2c3e50;
+}
+
+
+.login-title {
+    color: #000;
+    font-size: calc(0.75rem + 1.5vw);
+}
+
+.a-login {
+    color: #1a252f;
+    font-size: 1.25rem;
+    transition: color 0.5s;
+    text-decoration: none;
+}
+
+.boton-login {
+    margin: 15px;
+    padding: 10px;
+    width: 40%;
+    border: 0px;
+    border: 1px solid rgb(158, 158, 158);
+    border-radius: 10px;
+    transition: background-color 0.5s;
+}
+
+.boton-login:hover {
+    background-color: #1a252f;
+    color: #ffffff;
+}

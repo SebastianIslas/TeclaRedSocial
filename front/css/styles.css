@@ -227,6 +227,7 @@ sup {
 }
 
 sub {
+  
   bottom: -0.25em;
 }
 
@@ -237,9 +238,11 @@ sup {
 a {
   color: #1abc9c;
   text-decoration: underline;
+  size: 50px;
 }
 a:hover {
   color: #15967d;
+  size: 50px;
 }
 
 a:not([href]):not([class]), a:not([href]):not([class]):hover {
@@ -329,9 +332,6 @@ th {
   border-width: 0;
 }
 
-label {
-  display: inline-block;
-}
 
 button {
   border-radius: 0;
