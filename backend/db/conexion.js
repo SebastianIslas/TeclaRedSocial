@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 require('dotenv').config()
 
-const sequelize = new Sequelize('presupuestos', null, null, {
+const sequelize = new Sequelize(process.env.DB_NAME, null, null, {
   dialect: 'mssql',
   server: process.env.DB_HOST,
   dialectOptions: {
