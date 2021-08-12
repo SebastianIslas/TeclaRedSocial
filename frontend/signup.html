@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Iniciar Sesión</title>
+        <title>Registro</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
@@ -29,7 +29,7 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
                         <!-- <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#portfolio">Portfolio</a></li> -->
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#">Entontrar un tecler</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#">Encontrar un tecler</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="./login.html">Login</a></li>
                     </ul>
                 </div>
@@ -38,7 +38,8 @@
         <!-- Masthead-->
         <header class="masthead bg-primary text-white text-center">
             <div class="container-login">
-                <form>
+                <!-- Form registro usuario -->
+                <form onsubmit="return registro(event)">
 					<h1 class="login-title">
 						Registro
                     </h1>
@@ -47,8 +48,59 @@
 
 						<input type="text" id="nombre" name="nombre" placeholder="Nombre" required> <br>
 						<input type="text" id="apellido" name="apellido" placeholder="Apellido" required> <br>
-						<input type="email" id="email" name="email" placeholder="Email" required> <br>
+                        <input type="email" id="email" name="email" placeholder="Email" required> <br>
                         <input type="password" id="password" name="password" placeholder="Contraseña"> <br>
+						<input type="text" id="residencia" name="residencia" placeholder="Ciudad y país de residencia" required> <br>
+						<select name="edad" id="edad">
+                            <option value="edad">Edad</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
+                            <option value="31">31</option>
+                            <option value="32">32</option>
+                            <option value="33">33</option>
+                            <option value="34">34</option>
+                            <option value="35">35</option>
+                            <option value="36">36</option>
+                            <option value="37">37</option>
+                            <option value="38">38</option>
+                            <option value="39">39</option>
+                            <option value="40">40</option>
+                            <option value="41">41</option>
+                            <option value="42">42</option>
+                            <option value="43">43</option>
+                            <option value="44">44</option>
+                            <option value="45">45</option>
+                            <option value="46">46</option>
+                            <option value="47">47</option>
+                            <option value="48">48</option>
+                            <option value="49">49</option>
+                            <option value="50">50</option>
+                            <option value="51">51</option>
+                            <option value="52">52</option>
+                            <option value="53">53</option>
+                            <option value="54">54</option>
+                            <option value="55">55</option>
+                            <option value="56">56</option>
+                            <option value="57">57</option>
+                            <option value="58">58</option>
+                            <option value="59">59</option>
+                        </select> <br>
+						<input type="text" id="estudios" name="estudios" placeholder="Estudios" required> <br>
+						<input type="text" id="idiomas" name="idiomas" placeholder="Idiomas" required> <br>
+						<input type="text" id="linkedin" name="linkedin" placeholder="Perfil de Linkedin" required> <br>
+						<input type="text" id="hobbies" name="hobbies" placeholder="Hobbies" required> <br>
+						
 
                         <button class="boton-login">
                             Registrarse
@@ -56,7 +108,7 @@
                     </div>
 
 					<div>
-						<a href="./reset-pass.html" class="a-login">
+						<a href="./login.html" class="a-login">
 							Iniciar Sesión
 						</a>
 					</div>
@@ -110,10 +162,9 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <!-- * *                               SB Forms JS                               * *-->
-        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- Script de validaciones -->
+        <script src="./js/signup.js"></script>
+        <script src="./js/validaciones.js"></script>
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     </body>
 </html>

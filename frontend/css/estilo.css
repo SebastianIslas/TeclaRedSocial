@@ -30,16 +30,36 @@ section div a{
 
 input{
     height: 3rem;
-    border-radius: 1rem;
+    border-radius: 5px;
     width: 50%;
-    margin: 1rem;
+    margin: 0.5rem;
     padding: 1rem;
     border: 0px;
     border: 1px solid rgb(158, 158, 158);
     font-size: 1.5rem;
     background-color: transparent;
     color: #2c3e50;
+    outline: none;
+    transition: box-shadow 0.5s;
 }
+
+input:focus {
+    box-shadow: 1px 1px 10px 1px #00000083;
+}
+
+select{
+    height: 3rem;
+    border-radius: 5px;
+    width: 50%;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border: 0px;
+    border: 1px solid rgb(158, 158, 158);
+    font-size: 1.5rem;
+    background-color: transparent;
+    color: #2c3e50;
+}
+
 
 
 .login-title {
@@ -62,6 +82,7 @@ input{
     border: 1px solid rgb(158, 158, 158);
     border-radius: 10px;
     transition: background-color 0.5s;
+    transition-timing-function: cubic-bezier(0.2, 0.4, 0.7, 0.8);
 }
 
 .boton-login:hover {
