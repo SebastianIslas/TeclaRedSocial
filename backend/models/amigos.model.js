@@ -1,7 +1,7 @@
 const { Sequelize }  = require('sequelize');
 const db = require('../db/db.conexion');
 
-const Opiniones = db.define('opiniones',{
+const Amigo = db.define('amigo',{
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -32,4 +32,4 @@ const Opiniones = db.define('opiniones',{
     updatedAt: false,
 });
 
-module.exports = { Opiniones }
+module.exports = { Amigo }
