@@ -1,5 +1,5 @@
 const { altaUsuarioDTO } = require('../dto/usuarios/alta.dto');
-const { Usuarios } = require('../models/usuarios.model');
+const { Usuarios } = require('../models/usuarios.models');
 const Joi = require('joi')
 
 const checkDatosAlta = async (req, res, next) => {

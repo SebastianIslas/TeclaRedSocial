@@ -1,5 +1,5 @@
 /* Se importan  los modelos*/
-const { Usuarios } = require('../models/usuarios.model')
+const { Usuarios } = require('../models/usuarios.models')
 
 /* Agrega un usuario a la bd */
 const crearUsuario = async (req, res) => {
