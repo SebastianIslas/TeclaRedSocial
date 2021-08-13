@@ -1,17 +1,17 @@
 const { Sequelize }  = require('sequelize');
-const db = require('../db/db.conexion');
+const db = require('../db/conexion');
 
-const Opiniones = db.define('opiniones',{
+const Validaciones = db.define('validaciones',{
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    id_usuario: {
+    id_habilidad: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-            model: 'usuarios',
+            model: 'habilidades',
             key: 'id'
         }
     },
@@ -23,8 +23,8 @@ const Opiniones = db.define('opiniones',{
             key: 'id'
         }
     },
-    opinion: {
-        type: Sequelize.STRING,
+    Calificacion: {
+        type: Sequelize.INTEGER,    //Validar que solo sea de 1 a 5 en back y front
         allowNull: false,
     },
 }, {
@@ -36,4 +36,11 @@ const Opiniones = db.define('opiniones',{
     updatedAt: false,
 });
 
-module.exports = { Opiniones }
+/* Crear la tabla usuarios */
+/*
+Validaciones.sync().then( () => {
+    console.log('Tabla validaciones creada');
+})
+*/
+
+module.exports = { Validaciones }

@@ -1,5 +1,5 @@
 const { Sequelize }  = require('sequelize');
-const db = require('../db/db.conexion');
+const db = require('../db/conexion');
 
 const Habilidades = db.define('habilidades',{
     id: {
@@ -31,5 +31,12 @@ const Habilidades = db.define('habilidades',{
     // If don't want updatedAt
     updatedAt: false,
 });
+
+/* Crear la tabla habilidades */
+/*
+Habilidades.sync().then( () => {
+    console.log('Tabla habilidades creada');
+})
+*/
 
 module.exports = { Habilidades }

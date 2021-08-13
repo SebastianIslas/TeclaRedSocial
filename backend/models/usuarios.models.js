@@ -1,5 +1,5 @@
 const { Sequelize }  = require('sequelize');
-const db = require('../db/db.conexion');
+const db = require('../db/conexion');
 
 const Usuarios = db.define('usuarios',{
     id: {
@@ -73,8 +73,12 @@ const Usuarios = db.define('usuarios',{
     updatedAt: false,
 });
 
-// Usuarios.sync().then( () => {
-//     console.log('Usuario Creada');
-// })
+
+/* Crear la tabla usuarios */
+/*
+Usuarios.sync().then( () => {
+    console.log('Tabla usuarios creada');
+})
+*/
 
 module.exports = { Usuarios }

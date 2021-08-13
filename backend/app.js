@@ -22,5 +22,12 @@ app.listen(process.env.PORT, async () => {
     }
 })
 
+<<<<<<< HEAD
 /* Rutas que usaremos */
 usuariosRoutes(app);
+=======
+const proyectosRouter = require('./routes/proyectos.routes');
+
+
+proyectosRouter(app);
+>>>>>>> 7353b38d8547e73f74024e23cbd3656a5a9d2a3e

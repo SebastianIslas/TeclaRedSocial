@@ -1,21 +1,13 @@
 const { Sequelize }  = require('sequelize');
-const db = require('../db/db.conexion');
+const db = require('../db/conexion');
 
-const Validaciones = db.define('validaciones',{
+const Proyectos = db.define('proyectos',{
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    id_habilidad: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'habilidades',
-            key: 'id'
-        }
-    },
-    id_evaluador: {
+    id_usuario: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -23,8 +15,12 @@ const Validaciones = db.define('validaciones',{
             key: 'id'
         }
     },
-    Calificacion: {
-        type: Sequelize.INTEGER,    //Validar que solo sea de 1 a 5 en back y front
+    titulo: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    descripcion: {
+        type: Sequelize.STRING,
         allowNull: false,
     },
 }, {
@@ -36,4 +32,10 @@ const Validaciones = db.define('validaciones',{
     updatedAt: false,
 });
 
-module.exports = { Validaciones }
+/* Crear la tabla proyectos */
+/*
+Proyectos.sync().then( () => {
+    console.log('Tabla proyectos creada');
+})
+*/
+module.exports = { Proyectos }
