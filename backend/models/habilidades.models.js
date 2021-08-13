@@ -15,14 +15,27 @@ const Habilidades = db.define('habilidades',{
             key: 'id'
         }
     },
+    categoria: {
+        type: Sequelize.ENUM('Conocimientos','Tecnologias', 'Desempeño', 'Habilidades Blandas', 'Entornos Profesionales', 'Conocimientos Extras'),
+        allowNull: false,
+    },
     titulo: {
         type: Sequelize.STRING,
         allowNull: false,
     },
-    tipo_habilidad: {
-        type: Sequelize.ENUM('Conocimientos','Tecnologias', 'Desempeño', 'Habilidades Blandas', 'Entornos Profesionales', 'Conocimientos Extras'),
+    evaluacion: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-    },
+        //Si tabla validaciones no tiene registros con este id, este campo debe ser 0
+        defaultValue: 0,    //0 = "Sin evaluacion" en front
+        validate: {
+            customValidator(value) {
+              if (value < 0 || value > 5) {
+                throw new Error("La evaluacion debe ser entre 1 y 5");
+              }
+            }
+        },
+    }
 }, {
     // don't add the timestamp attributes (updatedAt, createdAt)
     timestamps: false,

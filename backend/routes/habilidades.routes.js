@@ -1,15 +1,13 @@
 const {
-    agregarProyecto,
-    obtenerProyectos,
-    obtenerProyectosUsuario,
-    actualizarProyecto,
-    eliminarProyecto,
-} = require('../controllers/proyectos.controllers')
+    agregarHabilidadExtra,
+    obtenerHabilidadesUsuario,
+    actualizarHabilidad,
+    eliminarHabilidad,
+} = require('../controllers/habilidades.controllers')
 
 module.exports = (app) => {
-    app.post('/proyectos', agregarProyecto);
-    app.get('/proyectos', obtenerProyectos);
-    app.get('/proyectos/:id', obtenerProyectosUsuario);
-    app.put('/proyectos/:id', actualizarProyecto);
-    app.delete('/proyectos/:id', eliminarProyecto);
+    app.post('/habilidades', agregarHabilidadExtra);
+    app.get('/habilidades/:id', obtenerHabilidadesUsuario);
+    app.put('/habilidades/:id', actualizarHabilidad);
+    app.delete('/habilidades/:id', eliminarHabilidad);
 }
