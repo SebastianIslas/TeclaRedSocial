@@ -17,3 +17,8 @@ app.listen(process.env.PORT, async () => {
         console.log('No se pudo iniciar. ');
     }
 })
+
+const proyectosRouter = require('./routes/proyectos.routes');
+
+
+proyectosRouter(app);

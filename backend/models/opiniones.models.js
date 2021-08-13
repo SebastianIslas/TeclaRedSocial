@@ -1,7 +1,7 @@
 const { Sequelize }  = require('sequelize');
-const db = require('../db/db.conexion');
+const db = require('../db/conexion');
 
-const Proyectos = db.define('proyectos',{
+const Opiniones = db.define('opiniones',{
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -15,11 +15,15 @@ const Proyectos = db.define('proyectos',{
             key: 'id'
         }
     },
-    titulo: {
-        type: Sequelize.STRING,
+    id_evaluador: {
+        type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+            model: 'usuarios',
+            key: 'id'
+        }
     },
-    descripcion: {
+    opinion: {
         type: Sequelize.STRING,
         allowNull: false,
     },
@@ -32,4 +36,12 @@ const Proyectos = db.define('proyectos',{
     updatedAt: false,
 });
 
-module.exports = { Proyectos }
+/* Crear la tabla opiniones */
+/*
+Opiniones.sync().then( () => {
+    console.log('Tabla opiniones creada');
+})
+*/
+
+
+module.exports = { Opiniones }

@@ -1,7 +1,7 @@
 const { Sequelize }  = require('sequelize');
-const db = require('../db/db.conexion');
+const db = require('../db/conexion');
 
-const Opiniones = db.define('opiniones',{
+const Amigos = db.define('amigos',{
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -15,17 +15,13 @@ const Opiniones = db.define('opiniones',{
             key: 'id'
         }
     },
-    id_evaluador: {
+    id_amigo: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
             model: 'usuarios',
             key: 'id'
         }
-    },
-    opinion: {
-        type: Sequelize.STRING,
-        allowNull: false,
     },
 }, {
     // don't add the timestamp attributes (updatedAt, createdAt)
@@ -36,4 +32,10 @@ const Opiniones = db.define('opiniones',{
     updatedAt: false,
 });
 
-module.exports = { Opiniones }
+/* Crear la tabla amigos */
+/*
+Amigos.sync().then( () => {
+    console.log('Tabla amigos creada');
+})
+*/
+module.exports = { Amigos }
