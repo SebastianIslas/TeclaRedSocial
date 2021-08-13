@@ -23,5 +23,5 @@ app.listen(process.env.PORT, async () => {
     }
 })
 
-proyectosRouter(app);
 usuariosRoutes(app);
+proyectosRouter(app);
