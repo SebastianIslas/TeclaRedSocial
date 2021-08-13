@@ -1,16 +1,20 @@
 /* Se importan  los modelos*/
-const { Usuarios } = require('../models/usuarios.model')
+const { Usuarios } = require('../models/usuarios.models');
+
+const { crearJWT } = require('../services/crearJWT.service');
+const bcrypt = require('bcrypt');
 
 /* Agrega un usuario a la bd */
 const crearUsuario = async (req, res) => {
     const { nombre, apellido, email, password, ciudad, pais, edad, estudios, idiomas, linkedin, hobbies, categoria, rol} = req.body;
-    let nombreCompleto = nombre + ' ' + apellido
+    let nombreCompleto = nombre + ' ' + apellido;
+    const passHas = await bcrypt.hash(password, 10);
     try {
         // Agregar el usuario a la bd
         Usuarios.create({
             nombre: nombreCompleto,
             email,
-            password,
+            password: passHas,
             ciudad,
             pais,
             edad,
@@ -86,11 +90,32 @@ const eliminarUsuario = async (req, res) => {
     }
 }
 
+/* Función que logea a un usuario retornando un token */
+const loginUsuario = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const usuario = await Usuarios.findOne({ where: { email } });
+        if (!usuario) {
+            res.status(400).json('Datos incorrectos.')
+        }             
+        const passwordDB = usuario.dataValues.password;
+        const passwordCorecto = bcrypt.compareSync(req.body.password, passwordDB);
+        if (!passwordCorecto) {
+            return res.status(400).json('Datos incorrectos.');
+        }
+        const token = await crearJWT(usuario.dataValues.id_usuario);
+        return res.status(200).json(token);
+    } catch (err) {
+        res.status(400).json('Datos incorrectos.')
+    }
+}
+
 
 module.exports = { 
     crearUsuario,
     obtenerUsuarios,
     obtenerUnUsuario,
     actualizarUsuario,
-    eliminarUsuario
+    eliminarUsuario,
+    loginUsuario
 }

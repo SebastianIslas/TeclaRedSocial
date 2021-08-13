@@ -7,7 +7,8 @@ const {
     obtenerUsuarios,
     obtenerUnUsuario,
     actualizarUsuario,
-    eliminarUsuario
+    eliminarUsuario,
+    loginUsuario,
 } =require('../controllers/usuarios.controllers')
 
 module.exports = (app) => {
@@ -19,5 +20,5 @@ module.exports = (app) => {
     app.delete('/usuarios/:id', eliminarUsuario);
 
     /* Login Usuario */
-    
+    app.post('/login', loginUsuario)
 }

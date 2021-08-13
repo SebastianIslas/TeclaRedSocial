@@ -4,6 +4,7 @@ const sequelize = require('./db/db.conexion');
 const cors = require('cors');
 require('dotenv').config()
 
+const proyectosRouter = require('./routes/proyectos.routes');
 const usuariosRoutes = require('./routes/usuarios.routes');
 
 /* Middlewares Globales */
@@ -22,12 +23,5 @@ app.listen(process.env.PORT, async () => {
     }
 })
 
-<<<<<<< HEAD
-/* Rutas que usaremos */
-usuariosRoutes(app);
-=======
-const proyectosRouter = require('./routes/proyectos.routes');
-
-
 proyectosRouter(app);
->>>>>>> 7353b38d8547e73f74024e23cbd3656a5a9d2a3e
+usuariosRoutes(app);
