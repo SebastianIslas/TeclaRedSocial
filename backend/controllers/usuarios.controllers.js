@@ -1,16 +1,25 @@
 /* Se importan  los modelos*/
-const { Usuario } = require('../models/usuario.models')
+const { Usuarios } = require('../models/usuarios.model')
 
 /* Agrega un usuario a la bd */
 const crearUsuario = async (req, res) => {
-    const { nombre, apellido, email, password} = req.body;
+    const { nombre, apellido, email, password, ciudad, pais, edad, estudios, idiomas, linkedin, hobbies, categoria, rol} = req.body;
+    let nombreCompleto = nombre + ' ' + apellido
     try {
         // Agregar el usuario a la bd
-        Usuario.create({
-            nombre,
-            apellido,
+        Usuarios.create({
+            nombre: nombreCompleto,
             email,
             password,
+            ciudad,
+            pais,
+            edad,
+            estudios,
+            idiomas,
+            linkedin,
+            hobbies,
+            categoria,
+            rol
         })
         res.status(200).json('Usuario creado con exito');
     } catch (err) {
@@ -21,7 +30,7 @@ const crearUsuario = async (req, res) => {
 /* Obtiene un conjunto de usuarios de la bd */
 const obtenerUsuarios = async (req, res) => {
     try {
-        const usuarios = await Usuario.findAll({});
+        const usuarios = await Usuarios.findAll({});
         res.status(200).json(usuarios);
     } catch (err) {
         res.status(400).json('Problema al leer los usuario: ' + err.message);
@@ -30,9 +39,9 @@ const obtenerUsuarios = async (req, res) => {
 
 /* Obtiene solo un usuario de la bd */
 const obtenerUnUsuario = async (req, res) => {
-    const id_usuario = req.params.id;
+    const id = req.params.id;
     try {
-        const usuario = await Usuario.findOne({ where: { id_usuario } });
+        const usuario = await Usuarios.findOne({ where: { id } });
         res.status(200).json(usuario);
     } catch (err) {
         res.status(400).json('Problema al leer al usuario: ' + err.message);
@@ -41,16 +50,24 @@ const obtenerUnUsuario = async (req, res) => {
 
 /* Actualiza la informacion de un usuario */
 const actualizarUsuario = async (req, res) => {
-    const id_usuario = req.params.id;
-    const {  nombre, apellidos, email, password } = req.body;
+    const id = req.params.id;
+    const { nombre, email, password, ciudad, pais, edad, estudios, idiomas, linkedin, hobbies, categoria, rol} = req.body;
     try {
-        Usuario.update({
+        Usuarios.update({
             nombre,
-            apellidos,
             email,
-            password
+            password,
+            ciudad,
+            pais,
+            edad,
+            estudios,
+            idiomas,
+            linkedin,
+            hobbies,
+            categoria,
+            rol
         },{ 
-            where: { id_usuario } 
+            where: { id } 
         });
         res.status(200).json('Usuario actualizado con exito.');
     } catch (err) {
@@ -60,9 +77,9 @@ const actualizarUsuario = async (req, res) => {
 
 /* Borrado logico de un usuario */
 const eliminarUsuario = async (req, res) => {
-    const id_usuario = req.params.id;
+    const id = req.params.id;
     try {
-        Usuario.update({ eliminado: 1 }, { where: { id_usuario } });
+        Usuarios.update({ elimiado: 1 }, { where: { id } });
         res.send('Usuario eliminado con exito');
     } catch (err) {
         res.status(400).json('Problema al eliminar el usuario: ' + err.message);

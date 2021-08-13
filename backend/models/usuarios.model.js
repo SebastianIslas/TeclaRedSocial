@@ -7,28 +7,16 @@ const Usuarios = db.define('usuarios',{
         primaryKey: true,
         autoIncrement: true
     },
+    nombre: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
     email: {
         type: Sequelize.STRING,
         allowNull: false,
 
     },
     password: {
-        type: Sequelize.STRING,
-        allowNull: false,
-    },
-    categoria: {
-        type: Sequelize.ENUM('Backend', 'Frontend','Reclutador'),
-        allowNull: false,
-    },
-    rol: {
-        type: Sequelize.ENUM('Developer', 'Empresa'),
-        allowNull: false,
-    },
-    foto: {
-        type: Sequelize.STRING,
-        allowNull: false,
-    },
-    nombre: {
         type: Sequelize.STRING,
         allowNull: false,
     },
@@ -52,7 +40,7 @@ const Usuarios = db.define('usuarios',{
         type: Sequelize.STRING,
         allowNull: false,
     },
-    linkedln: {
+    linkedin: {
         type: Sequelize.STRING,
         allowNull: false,
     },
@@ -60,6 +48,22 @@ const Usuarios = db.define('usuarios',{
         type: Sequelize.STRING,
         allowNull: false,
     },
+    foto: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    categoria: {
+        type: Sequelize.ENUM('Backend', 'Frontend','Reclutador'),
+        allowNull: false,
+    },
+    rol: {
+        type: Sequelize.ENUM('Developer', 'Empresa'),
+        allowNull: false,
+    },
+    elimiado: {
+        type: Sequelize.INTEGER,
+        default: 0
+    }
 }, {
     // don't add the timestamp attributes (updatedAt, createdAt)
     timestamps: false,
@@ -68,5 +72,9 @@ const Usuarios = db.define('usuarios',{
     // If don't want updatedAt
     updatedAt: false,
 });
+
+// Usuarios.sync().then( () => {
+//     console.log('Usuario Creada');
+// })
 
 module.exports = { Usuarios }

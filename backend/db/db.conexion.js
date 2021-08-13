@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 require('dotenv').config()
 
-const sequelize = new Sequelize(process.env.DB_NAME, null, null, {
+const sequelize = new Sequelize('teclas', null, null, {
   dialect: 'mssql',
   server: process.env.DB_HOST,
   dialectOptions: {
@@ -9,8 +9,8 @@ const sequelize = new Sequelize(process.env.DB_NAME, null, null, {
       type: 'default',
       options: {
         encrypt: false,
-        userName: process.env.DB_USR,
-        password: process.env.DB_PASS,
+        userName: 'sam',
+        password: '1234',
         trustServerCertificate: true,
         cryptoCredentialsDetails: {
           minVersion: 'TLSv1'
