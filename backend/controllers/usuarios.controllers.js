@@ -91,6 +91,7 @@ const actualizarUsuario = async (req, res) => {
 /* Borrado logico de un usuario */
 const eliminarUsuario = async (req, res) => {
     const id = req.params.id;
+    console.log(id);
     try {
         Usuarios.update({ elimiado: 1 }, { where: { id } });
         res.send('Usuario eliminado con exito');
@@ -125,7 +126,6 @@ const agregarFoto = async (req, res) => {
     const id = req.query.id
     const foto = id + path.extname(req.file.originalname);
     Usuarios.update({ foto },{ where: { id } });
-    console.log(foto);
     res.redirect('http://127.0.0.1:5500/frontend/mi-perfil.html')
 }
 

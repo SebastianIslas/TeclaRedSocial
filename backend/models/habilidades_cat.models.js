@@ -21,10 +21,10 @@ const HabilidadesCat = db.define('habilidades_cat',{
 });
 
 /* Crear la tabla habilidades */
-/*
+
 Habilidades.sync().then( () => {
     console.log('Tabla habilidades creada');
 })
-*/
+
 
 module.exports = { HabilidadesCat }

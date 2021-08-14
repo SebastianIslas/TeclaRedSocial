@@ -37,10 +37,10 @@ const Validaciones = db.define('validaciones',{
 });
 
 /* Crear la tabla usuarios */
-/*
+
 Validaciones.sync().then( () => {
     console.log('Tabla validaciones creada');
 })
-*/
+
 
 module.exports = { Validaciones }

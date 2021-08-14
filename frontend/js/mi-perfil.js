@@ -41,30 +41,35 @@ const cargarDatos = async () => {
     });
 }
 
-const renderDatos = (data) => {
+const inputsDelDOM = () => {
     const idUsuario = document.getElementById('idUsuario');
-    idUsuario.setAttribute('value', data.id);
     const nombre = document.getElementById('nombre');
-    nombre.setAttribute('value', `${data.nombre}`);
     const apellido = document.getElementById('apellido');
-    apellido.setAttribute('value', `${data.apellido}`);
     const email = document.getElementById('email');
-    email.setAttribute('value', `${data.email}`);
     const ciudad = document.getElementById('ciudad');
-    ciudad.setAttribute('value', `${data.ciudad}`);
     const pais = document.getElementById('pais');
-    pais.setAttribute('value', `${data.pais}`);
     const estudios = document.getElementById('estudios');
-    estudios.setAttribute('value', `${data.estudios}`);
     const idiomas = document.getElementById('idiomas');
-    idiomas.setAttribute('value', `${data.idiomas}`);
     const linkedin = document.getElementById('linkedin');
-    linkedin.setAttribute('value', `${data.linkedin}`);
     const hobbies = document.getElementById('hobbies');
-    hobbies.setAttribute('value', `${data.hobbies}`);
     const edad = document.getElementById('edad');
-    edad.setAttribute('value', `${data.edad}`);
-    edad.options[data.edad - 17].setAttribute('selected', 'true'); 
+    return inputs = { idUsuario, nombre, apellido, email, ciudad, pais, edad, estudios, idiomas, linkedin, hobbies};
+}
+
+const renderDatos = (data) => {
+    const inputs = inputsDelDOM();
+    inputs.idUsuario.setAttribute('value', `${data.id}`);
+    inputs.nombre.setAttribute('value', `${data.nombre}`);
+    inputs.apellido.setAttribute('value', `${data.apellido}`);
+    inputs.email.setAttribute('value', `${data.email}`);
+    inputs.ciudad.setAttribute('value', `${data.ciudad}`);
+    inputs.pais.setAttribute('value', `${data.pais}`);
+    inputs.estudios.setAttribute('value', `${data.estudios}`);
+    inputs.idiomas.setAttribute('value', `${data.idiomas}`);
+    inputs.linkedin.setAttribute('value', `${data.linkedin}`);
+    inputs.hobbies.setAttribute('value', `${data.hobbies}`);
+    inputs.edad.setAttribute('value', `${data.edad}`);
+    inputs.edad.options[data.edad - 17].setAttribute('selected', 'true'); 
     const formImg = document.getElementById('formImg');
     formImg.setAttribute('action', `http://localhost:3000/images?id=${data.id}`);
     if (data.foto) {
@@ -75,31 +80,22 @@ const renderDatos = (data) => {
 
 const actualizarDatos = (event) => {
     event.preventDefault();
-    const id = document.getElementById('idUsuario').value;
-    const nombre = document.getElementById('nombre').value;
-    const apellido = document.getElementById('apellido').value;
-    const email = document.getElementById('email').value;
-    const ciudad = document.getElementById('ciudad').value;
-    const pais = document.getElementById('pais').value;
-    const estudios = document.getElementById('estudios').value;
-    const idiomas = document.getElementById('idiomas').value;
-    const linkedin = document.getElementById('linkedin').value;
-    const hobbies = document.getElementById('hobbies').value;
+    const inputs = inputsDelDOM();
     const edad = document.getElementById('edad').value;
     let data = {
-        id,
-        nombre,
-        apellido,
-        email,
-        ciudad,
-        pais,
-        estudios,
-        idiomas,
-        linkedin,
-        hobbies,
+        id: inputs.idUsuario.value,
+        nombre: inputs.nombre.value,
+        apellido: inputs.apellido.value,
+        email: inputs.email.value,
+        ciudad: inputs.ciudad.value,
+        pais: inputs.pais.value,
+        estudios: inputs.estudios.value,
+        idiomas: inputs.idiomas.value,
+        linkedin: inputs.linkedin.value,
+        hobbies: inputs.hobbies.value,
         edad
     }
-    fetchActualizar(data)
+    fetchActualizar(data);
 }
 
 const fetchActualizar = async (data) => {
@@ -122,6 +118,28 @@ const fetchActualizar = async (data) => {
                 return;
             });
         }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const eliminarCuenta = (event) => {
+    event.preventDefault();
+    const borrar = confirm('¿Estás seguro?');
+    if (borrar) {
+        const idUsuario = document.getElementById('idUsuario').value;
+        fetchEliminar(idUsuario);
+        document.cookie = "token=; max-age=0";
+        alert('Usuario dado de baja con exito');
+        window.location.replace("./index.html");
+    }
+}
+
+const fetchEliminar = async (idUsuario) => {
+    try {
+        await fetch(`http://localhost:3000/usuarios/${idUsuario}`, {
+          method: 'DELETE'
+        });
     } catch (err) {
         console.log(err);
     }

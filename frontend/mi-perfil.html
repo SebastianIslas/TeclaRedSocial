@@ -38,12 +38,11 @@
             </div>
         </nav>
         <!-- Masthead-->
-        <header class="masthead bg-primary text-white text-center" id ="contact">
+        <section class="masthead bg-primary text-white text-center" id ="contact">
             <h1> Mi perfil</h1>
             <div class="container d-flex">
                 <div class="col-md-6" >
-                    <img id="fotoDePerfil" class="masthead-avatar mb-5" src="assets/img/avataaars.svg" alt="..." /> <br>
-
+                    <img id="fotoDePerfil" class="masthead-avatar mb-5" src="assets/img/avataaars.svg" alt="Imagen De Perfil" /> <br>
                     <button id="botonBoton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFoto">
                         Cambiar Foto De Perfil
                     </button> <br> <br>
@@ -123,10 +122,9 @@
                     </form>
                 </div>
             </div>
-
-            <button class="boton-login" onclick="actualizarDatos(event)"> Guardar </button>
-
-        </header>
+            <button class="boton-login" onclick="actualizarDatos(event)"> Guardar </button> <br>
+            <button class="btn btn-danger" onclick="eliminarCuenta(event)"> Eliminar mi cuenta </button> <br> <br>
+        </section>
         <!-- Portfolio Section-->
         <section class="page-section portfolio" id="portfolio">
             <div class="container">

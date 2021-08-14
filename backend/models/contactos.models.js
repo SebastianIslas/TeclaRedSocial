@@ -33,9 +33,9 @@ const Contactos = db.define('contactos',{
 });
 
 /* Crear la tabla amigos */
-/*
+
 Amigos.sync().then( () => {
     console.log('Tabla amigos creada');
 })
-*/
+
 module.exports = { Contactos }
