@@ -31,13 +31,12 @@ section div a{
 input{
     height: 3rem;
     border-radius: 5px;
-    width: 50%;
+    width: 75%;
     margin: 0.5rem;
     padding: 1rem;
     border: 0px;
     border: 1px solid rgb(158, 158, 158);
     font-size: 1.5rem;
-    background-color: transparent;
     color: #2c3e50;
     outline: none;
     transition: box-shadow 0.5s;
@@ -56,15 +55,8 @@ select{
     border: 0px;
     border: 1px solid rgb(158, 158, 158);
     font-size: 1.5rem;
-    background-color: transparent;
     color: #2c3e50;
 }
-
-.select-md{
-    width: 25%;
-}
-
-
 
 .login-title {
     color: #000;
@@ -92,4 +84,18 @@ select{
 .boton-login:hover {
     background-color: #1a252f;
     color: #ffffff;
+}
+
+#image {
+    font-size: 13px;
+}
+
+#botonBoton {
+    font-size: 20px;
+    color: #2c3e50;
+    background-color: rgb(216, 216, 216);
+}
+
+label {
+    font-size: 20px;
 }

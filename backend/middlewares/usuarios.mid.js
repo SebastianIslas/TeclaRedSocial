@@ -1,6 +1,8 @@
 const { altaUsuarioDTO } = require('../dto/usuarios/alta.dto');
 const { Usuarios } = require('../models/usuarios.models');
-const Joi = require('joi')
+const Joi = require('joi');
+const multer = require('multer');
+const path = require('path');
 
 const checkDatosAlta = async (req, res, next) => {
     try{
@@ -24,4 +26,16 @@ const correoExistente = async (req, res, next) => {
     }
 }
 
-module.exports = { checkDatosAlta, correoExistente }
+const storage = multer.diskStorage({
+    destination: "../frontend/assets/profile-img",
+    filename:  (req, file, cb) => {
+        cb(null, req.query.id + path.extname(file.originalname)) //Appending extension
+    }
+});
+
+const upload = multer( {
+    storage,
+    dest: "../frontend/assets/profile-img"
+}).single('image');
+
+module.exports = { checkDatosAlta, correoExistente, upload }

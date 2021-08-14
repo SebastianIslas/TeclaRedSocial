@@ -46,8 +46,9 @@ const fetchRegistro = async (data) => {
           body: JSON.stringify(data)
         });
         if (response.status === 200) {
-            response.json().then(data => {
-                alert('Usuario creado con exito')
+            response.json().then(json => {
+                alert('Usuario creado con exito');
+                fetchLogin(data);
             });
         } else {
             response.json().then(json => {

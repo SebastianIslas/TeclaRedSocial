@@ -1,18 +1,19 @@
-/* Se importan  los modelos*/
-const { Usuarios } = require('../models/usuarios.models');
-
+const jwt = require('jsonwebtoken');
 const { crearJWT } = require('../services/crearJWT.service');
 const bcrypt = require('bcrypt');
+const path = require('path');
+/* Se importan  los modelos*/
+const { Usuarios } = require('../models/usuarios.models');
 
 /* Agrega un usuario a la bd */
 const crearUsuario = async (req, res) => {
     const { nombre, apellido, email, password, ciudad, pais, edad, estudios, idiomas, linkedin, hobbies, categoria, rol} = req.body;
-    let nombreCompleto = nombre + ' ' + apellido;
     const passHas = await bcrypt.hash(password, 10);
     try {
         // Agregar el usuario a la bd
         Usuarios.create({
-            nombre: nombreCompleto,
+            nombre,
+            apellido,
             email,
             password: passHas,
             ciudad,
@@ -43,10 +44,14 @@ const obtenerUsuarios = async (req, res) => {
 
 /* Obtiene solo un usuario de la bd */
 const obtenerUnUsuario = async (req, res) => {
-    const id = req.params.id;
+    const token = req.query.token;
+    let id;
+    jwt.verify(token, 'secretkey', (err, user) => {
+        id = user.id_usuario;
+    });
+    const usuario = await Usuarios.findOne({ where: { id } });
+    res.status(200).json(usuario);
     try {
-        const usuario = await Usuarios.findOne({ where: { id } });
-        res.status(200).json(usuario);
     } catch (err) {
         res.status(400).json('Problema al leer al usuario: ' + err.message);
     }
@@ -103,7 +108,7 @@ const loginUsuario = async (req, res) => {
         if (!passwordCorecto) {
             return res.status(400).json('Datos incorrectos.');
         }
-        const token = await crearJWT(usuario.dataValues.id_usuario);
+        const token = await crearJWT(usuario.dataValues.id);
         return res.status(200).json(token);
     } catch (err) {
         res.status(400).json('Datos incorrectos.')
@@ -111,11 +116,21 @@ const loginUsuario = async (req, res) => {
 }
 
 
+/* Post foto */
+const agregarFoto = async (req, res) => {
+    const id = req.query.id
+    const foto = id + path.extname(req.file.originalname);
+    Usuarios.update({ foto },{ where: { id } });
+    console.log(foto);
+    res.redirect('http://127.0.0.1:5500/frontend/mi-perfil.html')
+}
+
 module.exports = { 
     crearUsuario,
     obtenerUsuarios,
     obtenerUnUsuario,
     actualizarUsuario,
     eliminarUsuario,
-    loginUsuario
+    loginUsuario,
+    agregarFoto
 }

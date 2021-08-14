@@ -23,7 +23,7 @@ const fetchLogin = async (data) => {
             response.json().then(data => {
                 document.cookie = `token=${data}`;
             });
-            window.location.replace("./index.html");
+            window.location.replace("./mi-perfil.html");
         } else {
             response.json().then(data => {
                 alert(data);
