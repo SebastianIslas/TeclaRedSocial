@@ -1,7 +1,7 @@
 const { Sequelize }  = require('sequelize');
 const db = require('../db/db.conexion');
 
-const Amigos = db.define('amigos',{
+const Contactos = db.define('contactos',{
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -38,4 +38,4 @@ Amigos.sync().then( () => {
     console.log('Tabla amigos creada');
 })
 */
-module.exports = { Amigos }
+module.exports = { Contactos }

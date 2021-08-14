@@ -102,7 +102,7 @@ const loginUsuario = async (req, res) => {
         const usuario = await Usuarios.findOne({ where: { email } });
         if (!usuario) {
             res.status(400).json('Datos incorrectos.')
-        }             
+        }
         const passwordDB = usuario.dataValues.password;
         const passwordCorecto = bcrypt.compareSync(req.body.password, passwordDB);
         if (!passwordCorecto) {
