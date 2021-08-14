@@ -1,5 +1,6 @@
 const { altaUsuarioDTO } = require('../dto/usuarios/alta.dto');
 const { Usuarios } = require('../models/usuarios.models');
+const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 const multer = require('multer');
 const path = require('path');
@@ -19,8 +20,19 @@ const correoExistente = async (req, res, next) => {
         if (!usuario) {
             return next();
         } else {
-            res.status(500).json('El email ya está registrado.');
+            console.log('Email ya existe')
+            res.status(409).json('El email ya está registrado.');
         }
+    } catch (err) {
+        res.status(500).json(err);
+    }
+}
+
+const validarToken = (req, res, next) => {
+    try {
+        const token = req.headers.authorization.split(' ')[1]
+        req.id = jwt.verify(token, 'secretkey').id_usuario;
+        next();
     } catch (err) {
         res.status(500).json(err);
     }
@@ -38,4 +50,4 @@ const upload = multer( {
     dest: "../frontend/assets/profile-img"
 }).single('image');
 
-module.exports = { checkDatosAlta, correoExistente, upload }
+module.exports = { checkDatosAlta, correoExistente, validarToken, upload }

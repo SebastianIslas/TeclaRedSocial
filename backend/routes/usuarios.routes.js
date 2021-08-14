@@ -1,5 +1,5 @@
 /* Se importan los middlewares */
-const { checkDatosAlta, correoExistente, upload } = require('../middlewares/usuarios.mid');
+const { checkDatosAlta, correoExistente, validarToken, upload } = require('../middlewares/usuarios.mid');
 const { setHabilidadesDefault } = require('../controllers/habilidades.controllers');
 /* Se importan los controladores */
 const {
@@ -16,10 +16,11 @@ const {
 module.exports = (app) => {
     /* CRUD usuarios */
     app.post('/usuarios', checkDatosAlta, correoExistente, crearUsuario);
-    app.get('/usuarios', obtenerUsuarios);
-    app.get('/usuario', obtenerUnUsuario);
-    app.put('/usuarios/:id', actualizarUsuario);
-    app.delete('/usuarios/:id', eliminarUsuario);
+    app.get('/usuario', validarToken, obtenerUnUsuario); // Obtener solo un usuario.
+    app.put('/usuario',validarToken, actualizarUsuario);
+    app.delete('/usuario', validarToken, eliminarUsuario);
+    
+    app.get('/usuarios', obtenerUsuarios); //Obtener un conjunto de usuarios
 
 
     app.post('/images', upload, agregarFoto)

@@ -48,14 +48,10 @@ const obtenerUsuarios = async (req, res) => {
 
 /* Obtiene solo un usuario de la bd */
 const obtenerUnUsuario = async (req, res) => {
-    const token = req.query.token;
-    let id;
-    jwt.verify(token, 'secretkey', (err, user) => {
-        id = user.id_usuario;
-    });
-    const usuario = await Usuarios.findOne({ where: { id } });
-    res.status(200).json(usuario);
+    const id = req.id;
     try {
+        const usuario = await Usuarios.findOne({ where: { id } });
+        res.status(200).json(usuario);
     } catch (err) {
         res.status(400).json('Problema al leer al usuario: ' + err.message);
     }
@@ -63,7 +59,7 @@ const obtenerUnUsuario = async (req, res) => {
 
 /* Actualiza la informacion de un usuario */
 const actualizarUsuario = async (req, res) => {
-    const id = req.params.id;
+    const id = req.id;
     const { nombre, email, password, ciudad, pais, edad, estudios, idiomas, linkedin, hobbies, categoria, rol} = req.body;
     try {
         Usuarios.update({
@@ -90,8 +86,7 @@ const actualizarUsuario = async (req, res) => {
 
 /* Borrado logico de un usuario */
 const eliminarUsuario = async (req, res) => {
-    const id = req.params.id;
-    console.log(id);
+    const id = req.id;
     try {
         Usuarios.update({ elimiado: 1 }, { where: { id } });
         res.send('Usuario eliminado con exito');
@@ -112,6 +107,9 @@ const loginUsuario = async (req, res) => {
         const passwordCorecto = bcrypt.compareSync(req.body.password, passwordDB);
         if (!passwordCorecto) {
             return res.status(400).json('Datos incorrectos.');
+        }
+        if (usuario.dataValues.elimiado == 1) {
+            await Usuarios.update({ elimiado: 0 }, { where: { id: usuario.dataValues.id } });
         }
         const token = await crearJWT(usuario.dataValues.id);
         return res.status(200).json(token);

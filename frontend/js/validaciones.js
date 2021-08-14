@@ -1,4 +1,3 @@
-
 function validarTxt(data) {
     if(data === null || data == 0 || /^\s+$/.test(data)) {
         return true;

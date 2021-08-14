@@ -28,12 +28,12 @@ const cambiarNavBar = () => {
 }
 
 const cargarDatos = async () => {
-    const cookie = document.cookie.split('=');
-    const token = cookie[1];
-    const response = await fetch(`http://localhost:3000/usuario?token=${token}`, {
+    const token = document.cookie.split('=')[1];
+    const response = await fetch(`http://localhost:3000/usuario`, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
         },
     });
     response.json().then(data => {
@@ -99,12 +99,13 @@ const actualizarDatos = (event) => {
 }
 
 const fetchActualizar = async (data) => {
+    const token = document.cookie.split('=')[1];
     try {
-        const response = await fetch(`http://localhost:3000/usuarios/${data.id}`, {
+        const response = await fetch(`http://localhost:3000/usuario`, {
           method: 'PUT',
           headers: {
-            'Content-Type': 'application/json'
-           
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'           
           },
           body: JSON.stringify(data)
         });
@@ -130,15 +131,19 @@ const eliminarCuenta = (event) => {
         const idUsuario = document.getElementById('idUsuario').value;
         fetchEliminar(idUsuario);
         document.cookie = "token=; max-age=0";
-        alert('Usuario dado de baja con exito');
         window.location.replace("./index.html");
+        alert('Usuario dado de baja con exito');
     }
 }
 
 const fetchEliminar = async (idUsuario) => {
+    const token = document.cookie.split('=')[1];
     try {
-        await fetch(`http://localhost:3000/usuarios/${idUsuario}`, {
-          method: 'DELETE'
+        await fetch(`http://localhost:3000/usuario`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
         });
     } catch (err) {
         console.log(err);
