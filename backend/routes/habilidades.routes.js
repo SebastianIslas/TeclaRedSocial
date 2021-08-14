@@ -6,8 +6,8 @@ const {
 } = require('../controllers/habilidades.controllers')
 
 module.exports = (app) => {
-    app.post('/habilidades', agregarHabilidadExtra);
-    app.get('/habilidades/:id', obtenerHabilidadesUsuario);
-    app.put('/habilidades/:id', actualizarHabilidad);
-    app.delete('/habilidades/:id', eliminarHabilidad);
+    app.post('/habilidades/extra', agregarHabilidadExtra);
+//    app.get('/habilidades/:id', obtenerHabilidadesUsuario);
+//    app.put('/habilidades/extra:id', actualizarHabilidad);
+//    app.delete('/habilidades/extra:id', eliminarHabilidadExtra);
 }

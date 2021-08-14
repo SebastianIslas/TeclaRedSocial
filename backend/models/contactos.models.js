@@ -15,7 +15,7 @@ const Contactos = db.define('contactos',{
             key: 'id'
         }
     },
-    id_amigo: {
+    id_contacto: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {

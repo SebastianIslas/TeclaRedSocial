@@ -7,6 +7,7 @@ require('dotenv').config()
 
 const proyectosRouter = require('./routes/proyectos.routes');
 const usuariosRoutes = require('./routes/usuarios.routes');
+const habilidadesRoutes = require('./routes/habilidades.routes');
 
 /* Middlewares Globales */
 app.use(express.json());
@@ -27,3 +28,4 @@ app.listen(process.env.PORT, async () => {
 
 usuariosRoutes(app);
 proyectosRouter(app);
+habilidadesRoutes(app)

@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const path = require('path');
 /* Se importan  los modelos*/
 const { Usuarios } = require('../models/usuarios.models');
+const { setHabilidadesDefault } = require('../controllers/habilidades.controllers');
 
 /* Agrega un usuario a la bd */
 const crearUsuario = async (req, res) => {
@@ -11,7 +12,7 @@ const crearUsuario = async (req, res) => {
     const passHas = await bcrypt.hash(password, 10);
     try {
         // Agregar el usuario a la bd
-        Usuarios.create({
+        let resultado = await Usuarios.create({
             nombre,
             apellido,
             email,
@@ -26,6 +27,9 @@ const crearUsuario = async (req, res) => {
             categoria,
             rol
         })
+        if(resultado){  //Crea registros en tabla habilidades para el usuario creado
+            await setHabilidadesDefault(resultado .id);
+        }
         res.status(200).json('Usuario creado con exito');
     } catch (err) {
         res.status(400).json('Problema al crear el usuario: ' + err.message);

@@ -1,6 +1,6 @@
 /* Se importan los middlewares */
 const { checkDatosAlta, correoExistente, upload } = require('../middlewares/usuarios.mid');
-
+const { setHabilidadesDefault } = require('../controllers/habilidades.controllers');
 /* Se importan los controladores */
 const {
     crearUsuario,

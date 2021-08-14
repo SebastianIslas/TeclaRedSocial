@@ -1,69 +1,46 @@
 /* Se importan  los modelos*/
-const { Habilidades } = require('../models/proyectos.models')
+const { Habilidades } = require('../models/habilidades.models')
+const { habService } = require('../services/habilidades.services')
+const jwt = require('jsonwebtoken');
 
 /* Habilidades por default de un usuario*/
 const setHabilidadesDefault = async (id_usuario) => {
     try {
-        let categorias = {
-            'Conocimientos' : [
-                'Base de datos', 'APIS', 'Testings', 'Seguridad', 'Teoria de objetos'
-            ],
-            'Tecnologias' : [
-                'NodeJs', 'Frontend', 'Swagger', 'Javascript'
-            ],
-            'Desempeño' : [
-                'Calidad de código', 'Velocidad de entrega', 'Perfomance del codigo'
-            ],
-            'Habilidades Blandas' : [
-                'Enfocado', 'Trabajo en equipo', 'Comprometido', 'Comunicación', 'Capacidad de aprendizaje', 'Resolución de problemas',
-            ],
-            'Entornos Profesionales' : [
-                'Versionado - Github', 'Trello - Jira', 'Slack', 'Metodologías Águiles'
-            ]
-        }
-        console.log(categorias['']);
-        categorias.forEach((categoria) =>{
-            insertHabilidadDefault(categoria)
+        Object.entries(habService.getHabilidades()).forEach(categoria => {
+            categoria[1].forEach(habilidad =>{
+                Habilidades.create({
+                    id_usuario: id_usuario,
+                    categoria: categoria[0],
+                    titulo: habilidad
+                })
+            })
         })
-//        res.status(200).json(resultado);
+        return "Habilidades por default creadas correctamente"
     } catch (err) {
-//        res.status(400).json('Problema al agregar el proyecto' + err.message);
+        throw new Error ('Problema al agregar las habilidades por default' + err.message);
     }
 }
 
-const insertHabilidadDefault = (categoria) =>{
-    try {
-        console.log(categoria);
-        categoria.forEach((categoria) =>{
-            insertHabilidadDefault(categoria)
-        })
-
-/*        Proyectos.create({
-            id_usuario,
-            titulo,
-            descripcion
-        })
-        res.status(200).json(resultado);
-        */
-    } catch (err) {
-  //      res.status(400).json('Problema al agregar el proyecto' + err.message);
-    }
-}
-
-setHabilidadesDefault(5);
 
 /* Agrega una habilidad a un usuario de un usuario a la bd */
 const agregarHabilidadExtra = async (req, res) => {
     try {
-        const { id_usuario, titulo, descripcion } = req.body;
-        let resultado = await Proyectos.create({
-            id_usuario,
-            titulo,
-            descripcion
+        const token = req.query.token;
+        let id;
+        console.log(token)
+        jwt.verify(token, 'secretkey', (err, user) => {
+            id = user.id_usuario;
+        });
+        const titulo = req.body.titulo;
+        console.log(titulo)
+        let resultado = await Habilidades.create({
+            id_usuario: id,
+            categoria: 'Conocimientos Extras',
+            titulo: titulo
         })
         res.status(200).json(resultado);
     } catch (err) {
-        res.status(400).json('Problema al agregar el proyecto' + err.message);
+        res.status(400).json('Problema al agregar la habilidad ' + err.message);
     }
 }
 
@@ -125,11 +102,12 @@ const eliminarProyecto = async (req, res) => {
 }
 
 
-/*
+
 module.exports = { 
     setHabilidadesDefault,
-    obtenerHabilidadesUsuario,
+    agregarHabilidadExtra
+/*    obtenerHabilidadesUsuario,
     actualizarHabilidad,
     eliminarHabilidad,
+    */
 }
-*/
