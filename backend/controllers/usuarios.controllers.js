@@ -63,10 +63,20 @@ const obtenerUsuarios = async (req, res) => {
 
 /* Obtiene solo un usuario de la bd */
 const obtenerUnUsuario = async (req, res) => {
-    const id = req.id;
     try {
-        const usuario = await Usuarios.findOne({ where: { id } });
-        res.status(200).json(usuario);
+        const id = req.id;
+        if(id != undefined) {   //Obtiene usuario en sesion
+            const usuario = await Usuarios.findOne({ where: { id } });
+            res.status(200).json(usuario);
+        } else{ //Obtiene datos de cualquier usuario
+            const id = req.params.id;
+            const usuario = await Usuarios.findOne({ 
+                attributes: {
+                    exclude: ['password', 'rol','eliminado']
+                  },
+                  where: { id } });
+            res.status(200).json(usuario);
+        }    
     } catch (err) {
         res.status(400).json('Problema al leer al usuario: ' + err.message);
     }

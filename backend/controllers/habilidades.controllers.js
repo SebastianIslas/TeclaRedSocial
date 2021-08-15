@@ -60,6 +60,22 @@ const getHabUsuario = async (req, res) => {
              });
     */
 }
+/* Obtiener todas las categorias de habilidades distintas que tenga el usuario */
+const getCatHabUsuario = async (req, res) => {
+    try {
+        const id_usuario = req.params.id;
+        console.log(id_usuario)
+        const categorias = await Habilidades.findAll({ 
+            attributes: ['categoria'],
+            group: ['categoria'],
+            where: { id_usuario },
+         });
+    res.status(200).json(categorias);
+    } catch (err) {
+        res.status(400).json('Problema al obtener las habilidades del usuario ' + err.message);
+    }
+}
+
 
 /* Actualiza una habilidad extra de un usuario */
 /*Habilidades dadas en el paper no se pueden modificar del titulo */
@@ -149,6 +165,7 @@ module.exports = {
     setHabilidadesDefault,
     agregarHabilidadExtra,
     getHabUsuario,
+    getCatHabUsuario,
     actualizarTitulo,
     evaluarHabilidad,
     eliminarHabilidad,

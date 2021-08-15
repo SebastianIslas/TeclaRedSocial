@@ -18,6 +18,7 @@ module.exports = (app) => {
     /* CRUD usuarios */
     app.post('/usuarios', checkDatosAlta, correoExistente, crearUsuario);
     app.get('/usuario', validarToken, obtenerUnUsuario); // Obtener solo un usuario.
+    app.get('/usuario/:id', obtenerUnUsuario); // Obtener datos publicos de un usuario
     app.put('/usuario',validarToken, actualizarUsuario);
     app.delete('/usuario', validarToken, eliminarUsuario);
     
