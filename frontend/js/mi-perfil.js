@@ -1,5 +1,4 @@
 window.onload = async function () {
-    cambiarNavBar();
     cargarDatos();
 }
 

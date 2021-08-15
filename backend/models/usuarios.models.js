@@ -55,6 +55,11 @@ const Usuarios = db.define('usuarios',{
         type: Sequelize.STRING,
         allowNull: true,
     },
+    descripcion: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        default: "Tu descripcion"
+    },
     categoria: {
         type: Sequelize.ENUM('Backend', 'Frontend','Reclutador'),
         allowNull: false,
@@ -75,13 +80,5 @@ const Usuarios = db.define('usuarios',{
     // If don't want updatedAt
     updatedAt: false,
 });
-
-
-/* Crear la tabla usuarios */
-/*
-Usuarios.sync().then( () => {
-    console.log('Tabla usuarios creada');
-})
-*/
 
 module.exports = { Usuarios }

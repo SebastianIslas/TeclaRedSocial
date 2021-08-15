@@ -1,7 +1,8 @@
 /* Se importan  los modelos*/
 const { Habilidades } = require('../models/habilidades.models')
 const { habService } = require('../services/habilidades.services')
-const jwt = require('jsonwebtoken');
+const { validacionesService } = require('../services/validaciones.services')
+const { Validaciones } = require('../models/validaciones.models')
 
 /* Habilidades por default de un usuario*/
 const setHabilidadesDefault = async (id_usuario) => {
@@ -22,15 +23,10 @@ const setHabilidadesDefault = async (id_usuario) => {
 }
 
 
-/* Agrega una habilidad a un usuario de un usuario a la bd */
+/* Agrega una habilidad extra a un usuario a la bd */
 const agregarHabilidadExtra = async (req, res) => {
     try {
-        const token = req.query.token;
-        let id;
-        console.log(token)
-        jwt.verify(token, 'secretkey', (err, user) => {
-            id = user.id_usuario;
-        });
+        id = req.id;
         const titulo = req.body.titulo;
         console.log(titulo)
         let resultado = await Habilidades.create({
@@ -44,60 +40,106 @@ const agregarHabilidadExtra = async (req, res) => {
     }
 }
 
-/* Obtiene todos los proyectos */
-const obtenerProyectos = async (req, res) => {
-    try {
-        const proyectos = await Proyectos.findAll({});
-        res.status(200).json(proyectos);
-    } catch (err) {
-        res.status(400).json('Problema al obtener los proyectos ' + err.message);
-    }
-}
-
-/* Obtiene los proyectos de un usuario*/
-const obtenerProyectosUsuario = async (req, res) => {
+/* Obtiener todas las habilidades del usuario */
+const getHabUsuario = async (req, res) => {
     try {
         const id_usuario = req.params.id;
-        const proyectos = await Proyectos.findAll({ where: { id_usuario: id_usuario } });
-        res.status(200).json(proyectos);
-    } catch (err) {
-        res.status(400).json('Error al obtener los proyectos del usuario' + err.message);
-    }
-}
-
-/* Actualiza informacion de un proyecto */
-const actualizarProyecto = async (req, res) => {
-    try {
-        const id_proyecto = req.params.id;
-        const {  titulo, descripcion } = req.body;
-        let resultado = await Proyectos.update({
-            titulo: titulo,
-            descripcion: descripcion
-        },{ 
-            where: { id: id_proyecto }
+        console.log(id_usuario)
+        const habilidades = await Habilidades.findAll({
+            where : {id_usuario: id_usuario} 
         });
-        if(resultado == 1){
-            res.status(200).json('Proyecto actualizado con exito');
+        res.status(200).json(habilidades);
+    } catch (err) {
+        res.status(400).json('Problema al obtener las habilidades del usuario ' + err.message);
+    }
+    /*
+            const categorias = await Habilidades.findAll({ 
+                attributes: ['categoria'],
+                group: ['categoria'],
+                where: { id_usuario },
+             });
+    */
+}
+
+/* Actualiza una habilidad extra de un usuario */
+/*Habilidades dadas en el paper no se pueden modificar del titulo */
+const actualizarTitulo = async (req, res) => {
+    try {
+        const { titulo } = req.body;
+        const id = req.params.id;
+        const id_usuario = req.id;
+        let resultado = await Habilidades.update({
+            titulo: titulo,
+        },{
+            //Hab existe, es del usuario que actualiza y solo esta categoria se puede 
+            //modificar una habilidad por el usuario
+            where: { id: id, id_usuario: id_usuario, categoria: 'Conocimientos Extras'}
+        });
+        if (resultado == 1){
+            res.status(200).json('Habilidad modificada con exito');
         } else{
-            throw new Error ('Datos invalidos')
+            throw new Error ('Solo puedes actualizar habilidades de tu usuario y de conocimientos extras')
         }
     } catch (err) {
-        res.status(400).json('Error al actualizar el proyecto: ' + err.message);
+        res.status(400).json( err.message);
     }
 }
 
-/* Eliminar un proyecto*/
-const eliminarProyecto = async (req, res) => {
-    try {
-        const id_proyecto = req.params.id;
-        let resultado = await Proyectos.destroy( {where: { id: id_proyecto }});
-        if(resultado == 1){
-            res.status(200).json('Proyecto eliminado con exito');
+//Evalua una habilidad que no sea propia del usuario en sesion
+const evaluarHabilidad = async (req, res) =>{
+    try {        
+        const id_hab = req.params.id;
+        const id_evaluador = req.id;
+        const { evaluacion } = req.body;
+        //Obtiene el usuario asociado a la habilidad que se desea evaluar
+        let usuario = await Habilidades.findOne({
+            attributes: ['id_usuario'],
+            where : {id: id_hab} 
+        });
+        let resultado
+        //Si es el mismo usuario que el evaluador no se permite evaluar
+        if(usuario.id_usuario == id_evaluador){
+            throw new Error ('No puedes evaluar tus habilidades')
         } else{
-            throw new Error ('Datos invalidos')
+            resultado = await Validaciones.create({ 
+                id_habilidad: id_hab,
+                id_evaluador: id_evaluador,
+                evaluacion: evaluacion
+            });
+            
+        }
+        if (resultado) {
+            res.status(200).json('Habilidad evaluada con exito');
+        }else {
+            throw new Error ('Datos invalidos');
+        }
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+}
+
+/* Eliminar una habilidad del usuario en sesion*/
+const eliminarHabilidad = async (req, res) => {
+    try {
+        let id_usuario = req.id;
+        const id_habilidad = req.params.id;
+        //Obtiene el usuario asociado a la habilidad a eliminar
+        let validar = await Habilidades.findOne({ where: { id: id_habilidad }})
+        //Si es el mismo que esta logeado se le permite borrar su habilidad
+        if(validar.id_usuario == id_usuario){
+            Validaciones.destroy({ where: { id_habilidad: id_habilidad}})
+            let resultado = await Habilidades.destroy( {where: { id: id_habilidad }});
+    
+            if(resultado == 1){
+                res.status(200).json('Habilidad eliminada con exito');
+            } else{
+                throw new Error ('Datos invalidos')
+            }
+        } else{
+            throw new Error ('Esta habilidad no pertenece a tu usuario')
         }
     } catch (err) {
-        res.status(400).json('Problema al eliminar el proyecto: ' + err.message);
+        res.status(400).json('Problema al eliminar la habilidad: ' + err.message);
     }
 }
 
@@ -105,9 +147,9 @@ const eliminarProyecto = async (req, res) => {
 
 module.exports = { 
     setHabilidadesDefault,
-    agregarHabilidadExtra
-/*    obtenerHabilidadesUsuario,
-    actualizarHabilidad,
+    agregarHabilidadExtra,
+    getHabUsuario,
+    actualizarTitulo,
+    evaluarHabilidad,
     eliminarHabilidad,
-    */
 }

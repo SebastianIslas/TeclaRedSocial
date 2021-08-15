@@ -5,6 +5,7 @@ const { setHabilidadesDefault } = require('../controllers/habilidades.controller
 const {
     crearUsuario,
     obtenerUsuarios,
+    obtenerUsuariosCategoria,
     obtenerUnUsuario,
     actualizarUsuario,
     eliminarUsuario,
@@ -21,6 +22,7 @@ module.exports = (app) => {
     app.delete('/usuario', validarToken, eliminarUsuario);
     
     app.get('/usuarios', obtenerUsuarios); //Obtener un conjunto de usuarios
+    app.get('/usuarios/:categoria', obtenerUsuariosCategoria); //Obtener un conjunto de usuarios de una categoria
 
     app.post('/images', upload, agregarFoto) //Recibe el form para subir una foto
     

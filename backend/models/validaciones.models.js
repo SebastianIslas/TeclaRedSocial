@@ -23,9 +23,10 @@ const Validaciones = db.define('validaciones',{
             key: 'id'
         }
     },
-    Calificacion: {
+    evaluacion: {
         type: Sequelize.INTEGER,    //Validar que solo sea de 1 a 5 en back y front
         allowNull: false,
+        defaultValue: 0,    //0 = "Sin evaluacion" en front
     },
 }, {
     // don't add the timestamp attributes (updatedAt, createdAt)
@@ -35,12 +36,5 @@ const Validaciones = db.define('validaciones',{
     // If don't want updatedAt
     updatedAt: false,
 });
-
-/* Crear la tabla usuarios */
-
-Validaciones.sync().then( () => {
-    console.log('Tabla validaciones creada');
-})
-
 
 module.exports = { Validaciones }
