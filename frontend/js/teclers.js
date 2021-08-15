@@ -18,7 +18,7 @@ const cargarTeclers = async (categoria) => {
         data.forEach(tecler => {
             templateBody.querySelector('h5').setAttribute('id',tecler.id);
             templateBody.querySelector('h5').textContent = tecler.nombre;
-            templateBody.querySelector('#foto').src = tecler.foto;
+            templateBody.querySelector('#foto').src = "assets/profile-img/" +tecler.foto;
             templateBody.querySelector('#descripcion').textContent = tecler.descripcion;
             const clone = templateBody.cloneNode(true);
             fragment.appendChild(clone);

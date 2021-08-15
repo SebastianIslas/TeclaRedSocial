@@ -1,5 +1,6 @@
 window.onload = async function () {
     cargarDatos();
+    cambiarNavBar();
 }
 
 /* Cambiara la barra de navegacion si el usuario está loggeado */
