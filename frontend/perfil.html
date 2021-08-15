@@ -20,24 +20,24 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand" href="#page-top">INICIO</a>
+                <a class="navbar-brand" href="./index.html">INICIO</a>
                 <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact">Contacto</a></li>
+                    <ul class="navbar-nav ms-auto" id="ulNavbar">
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#datos">Datos</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#proyectos">Proyectos</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#habilidades">Habilidades</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#conocimientos">Conocimientos</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#fedback">Feedbacks</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#login">Login</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#fedback">Opiniones</a></li>
+                        <li class="nav-item mx-0 mx-lg-1" id="liLog"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="./login.html">Login</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
         <!-- Masthead-->
-        <header class="masthead bg-primary text-white text-center" id ="contact">
+        <header class="masthead bg-primary text-white text-center" id ="datos">
             <div class="container d-flex align-items-center flex-column">
                 <!-- Masthead Avatar Image-->
                 <img class="masthead-avatar mb-5" id="foto" src="assets/img/avataaars.svg" alt="..."  />
@@ -65,9 +65,10 @@
             </div>
         </header>
         <!-- Datos Generales Section-->
-        <section class="page-section portfolio" id="portfolio">
+        <section class="page-section portfolio" id="datos2">
             <div class="container">
                 <!-- Datos Generales Section Heading-->
+                
                 <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Datos generales </h2>
                 <!-- Icon Divider-->
                 <div class="divider-custom">
@@ -75,12 +76,12 @@
                     <div class="divider-custom-icon"><i class="fa fa-info-circle" aria-hidden="true"></i></div>
                     <div class="divider-custom-line"></div>
                 </div>
-                <div class="info_user">
-                        <h5>Edad:  <span id="edad">Edad</span></h5>
-                        <h5>Ubicación: <span id="ubicacion">Ubicacion</span></h5>
-                        <h5>Estudios: <span id="estudios">Est</span></h5>
-                        <h5>Idiomas: <span id="idiomas">Idiomas</span></h5>
-                        <h5>Hobbies: <span id="hobbies">Hobbies</span></h5>
+                <div class="info_user page-section-heading text-center">
+                    <h5>Edad:  <span id="edad">Edad</span></h5>
+                    <h5>Ubicación: <span id="ubicacion">Ubicacion</span></h5>
+                    <h5>Estudios: <span id="estudios">Est</span></h5>
+                    <h5>Idiomas: <span id="idiomas">Idiomas</span></h5>
+                    <h5>Hobbies: <span id="hobbies">Hobbies</span></h5>
                 </div>
                 <br>
             </div>
@@ -145,21 +146,22 @@
                     <div class="divider-custom-line"></div>
                 </div>
                 <!-- Habilidades Section Content-->
-                <div class="row" id="habilidades">
+                <div class="container" id="habilidades">
 
+                   <!-- Template para cada categoria de habilidades --> 
                     <template id="tempalte-hab-cat">
-                        <div class="col-lg-4 me-auto" class="categoria">
+                        <div class="container" class="categoria">
                             <h3 class="titulo">Categoria</h3>
-                            <ul style ="list-style: none;">
+                            <ul class="container" style ="list-style: none;">
                             </ul>
                         </div>
+                        <br>
                     </template>
+                    <!-- Template para cada elemento de cada categoria -->
                     <template id="hab-cat-li">
-                        <li style ="list-style: none;">
-                            <div>
-                                <span class="lead">Evaluacion</span>
-                                <span class="ev" style="float:right"></span>
-                            </div>
+                        <li  style ="list-style: none;">
+                            <span class="lead text-center">Evaluacion</span>
+                            <span class="ev" style="float:right"></span>
                         </li>
                     </template>
                 </div>
@@ -167,7 +169,7 @@
         </section>
 
         <!-- Opiniones Section-->
-        <section class="page-section bg-primary" id="opiniones">
+        <section class="page-section bg-primary" id="fedback">
             <div class="container">
                 <!-- Contact Section Heading-->
                 <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Opiniones</h2>
@@ -256,7 +258,7 @@
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
+        <script src="js/navbar.js"></script>
         <script src="js/perfil.js"></script>
 
     </body>

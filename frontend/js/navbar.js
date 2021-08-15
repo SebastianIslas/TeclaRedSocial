@@ -1,6 +1,3 @@
-window.onload = async function () {
-    cambiarNavBar();
-}
 
 /* Cambiara la barra de navegacion si el usuario está loggeado */
 const cambiarNavBar = () => {
@@ -10,6 +7,15 @@ const cambiarNavBar = () => {
         const ulNavbar = document.getElementById('ulNavbar');
         const liLog = document.getElementById('liLog');
         ulNavbar.removeChild(liLog); /* Se elimina la opcion login */
+        /* Inserta opcion de mi perfil */
+        const liPerfil = document.createElement('li');
+        liPerfil.classList = 'nav-item mx-0 mx-lg-1';
+        const linkPerfil = document.createElement('a');
+        linkPerfil.classList = 'nav-link py-3 px-0 px-lg-3 rounded';
+        linkPerfil.innerHTML = `Mi perfil`;
+        linkPerfil.setAttribute('href', './mi-perfil.html');
+        liPerfil.appendChild(linkPerfil);
+        ulNavbar.appendChild(liPerfil);
 
         /* Inserta la opcion 'log out' a la barra de navegacion */
         const liLogout = document.createElement('li');
@@ -23,5 +29,7 @@ const cambiarNavBar = () => {
         })
         liLogout.appendChild(linkLogout);
         ulNavbar.appendChild(liLogout);
-    } 
+    }
 }
+
+cambiarNavBar();

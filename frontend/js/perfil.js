@@ -31,12 +31,8 @@ const renderDatos = (data) =>{
     renderHabilidades(data.id);
 }
 
+//Renderiza las categorias asociadas al usuario
 const renderHabilidades = async (id) => {
-    renderCategorias(id);
-}
-
-
-const renderCategorias = async (id) => {
     const response = await fetch('http://localhost:3000/habilidades/'+id+'/categorias');
 
     let templateBody = document.getElementById('tempalte-hab-cat').content;
@@ -56,6 +52,7 @@ const renderCategorias = async (id) => {
     });
 }
 
+//Renderiza las habilides asociadas a esa categoria en la lista del html
 const renderHabilidadesLi = async (id, categoria) => {
     const response = await fetch('http://localhost:3000/habilidades/'+id);
 
@@ -63,11 +60,14 @@ const renderHabilidadesLi = async (id, categoria) => {
     let categoria_div = document.getElementById("ul_"+categoria);
     const fragment = document.createDocumentFragment();
     response.json().then(habilidades => {
-        console.log(habilidades)
         habilidades.forEach(habilidad => {
             if(habilidad.categoria == categoria){
                 li_template.querySelector('.lead').textContent = habilidad.titulo;
-                li_template.querySelector('.ev').textContent = habilidad.evaluacion;
+                if(habilidad.evaluacion == 0){
+                    li_template.querySelector('.ev').textContent = 'Sin evaluar';
+                } else{
+                    li_template.querySelector('.ev').textContent = habilidad.evaluacion;
+                }
                 const clone = li_template.cloneNode(true);
                 fragment.appendChild(clone);
             }
