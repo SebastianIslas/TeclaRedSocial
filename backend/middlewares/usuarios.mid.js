@@ -5,6 +5,7 @@ const Joi = require('joi');
 const multer = require('multer');
 const path = require('path');
 
+/* Verifica que los campos recibidos sean correctos */
 const checkDatosAlta = async (req, res, next) => {
     try{
         await Joi.attempt(req.body, altaUsuarioDTO, 'Los datos enviados no son correctos');
@@ -14,6 +15,7 @@ const checkDatosAlta = async (req, res, next) => {
     }  
 }
 
+/* Verifica que el email no exista en la bd */
 const correoExistente = async (req, res, next) => {
     try {
         const usuario = await Usuarios.findOne({ where: { email: req.body.email } })
@@ -28,23 +30,26 @@ const correoExistente = async (req, res, next) => {
     }
 }
 
+/* Valida que exista un token */
 const validarToken = (req, res, next) => {
     try {
         const token = req.headers.authorization.split(' ')[1]
-        req.id = jwt.verify(token, 'secretkey').id_usuario;
+        req.id = jwt.verify(token, 'secretkey').id_usuario; //VErifica que sea un token valido y asigna el id a una variable
         next();
     } catch (err) {
         res.status(500).json(err);
     }
 }
 
+/* Modifica el nombre de la foto que recibio */
 const storage = multer.diskStorage({
     destination: "../frontend/assets/profile-img",
     filename:  (req, file, cb) => {
-        cb(null, req.query.id + path.extname(file.originalname)) //Appending extension
+        cb(null, req.query.id + path.extname(file.originalname)) //Nombramos el nombre de la foto de acuerdo al id del usuario
     }
 });
 
+/* Guarda la foto recibida en el disco duro */
 const upload = multer( {
     storage,
     dest: "../frontend/assets/profile-img"

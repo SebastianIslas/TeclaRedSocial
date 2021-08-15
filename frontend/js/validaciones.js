@@ -1,3 +1,4 @@
+/* Validacion correspondiente a una entrada de texto (input) */
 function validarTxt(data) {
     if(data === null || data == 0 || /^\s+$/.test(data)) {
         return true;
@@ -6,6 +7,7 @@ function validarTxt(data) {
     }
 }
 
+/* Validacion correspondiente a un email */
 function validarEmail(email) {
     if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)$/.test(email)){
         return false;
@@ -14,6 +16,7 @@ function validarEmail(email) {
     }
 }
 
+/* Validacion correspondiente a una contraseña */
 function validarPassword(password) {
     if ( password.length < 8 ) {
         return true;
@@ -22,6 +25,7 @@ function validarPassword(password) {
     }
 }
 
+/* Valida todos los campos */
 function validarSignIn(data) {
     if (validarTxt(data.nombre)) {
         alert('Verificar el campo nombre');

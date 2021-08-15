@@ -20,19 +20,20 @@ const cambiarNavBar = () => {
         linkLogout.innerHTML = `Logout <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M10.604 1h4.146a.25.25 0 01.25.25v4.146a.25.25 0 01-.427.177L13.03 4.03 9.28 7.78a.75.75 0 01-1.06-1.06l3.75-3.75-1.543-1.543A.25.25 0 0110.604 1zM3.75 2A1.75 1.75 0 002 3.75v8.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 12.25v-3.5a.75.75 0 00-1.5 0v3.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-8.5a.25.25 0 01.25-.25h3.5a.75.75 0 000-1.5h-3.5z"></path></svg>`;
         linkLogout.setAttribute('href', './index.html');
         linkLogout.addEventListener('click', function() {
-            document.cookie = "token=; max-age=0";
+            document.cookie = "token=; max-age=0"; //Si el usuario cerro sesion, se elimina la cookie correspondiente
         })
         liLogout.appendChild(linkLogout);
         ulNavbar.appendChild(liLogout);
     } 
 }
 
+/* Interactua con el server para traer la informacion de un usuario */
 const cargarDatos = async () => {
     const token = document.cookie.split('=')[1];
     const response = await fetch(`http://localhost:3000/usuario`, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
             'Content-Type': 'application/json'
         },
     });
@@ -41,6 +42,7 @@ const cargarDatos = async () => {
     });
 }
 
+/* Obtiene del DOM los que necesitamos */
 const inputsDelDOM = () => {
     const idUsuario = document.getElementById('idUsuario');
     const nombre = document.getElementById('nombre');
@@ -56,6 +58,7 @@ const inputsDelDOM = () => {
     return inputs = { idUsuario, nombre, apellido, email, ciudad, pais, edad, estudios, idiomas, linkedin, hobbies};
 }
 
+/*  Poner por defecto los valores que se obtuvieron de la bd */
 const renderDatos = (data) => {
     const inputs = inputsDelDOM();
     inputs.idUsuario.setAttribute('value', `${data.id}`);
@@ -71,13 +74,14 @@ const renderDatos = (data) => {
     inputs.edad.setAttribute('value', `${data.edad}`);
     inputs.edad.options[data.edad - 17].setAttribute('selected', 'true'); 
     const formImg = document.getElementById('formImg');
-    formImg.setAttribute('action', `http://localhost:3000/images?id=${data.id}`);
-    if (data.foto) {
+    formImg.setAttribute('action', `http://localhost:3000/images?id=${data.id}`); //Agrega el id para que el servidor lo reciba
+    if (data.foto) { //Si el usuario ya agrego una foto, la muestra 
         const fotoDePerfil = document.getElementById('fotoDePerfil');
         fotoDePerfil.setAttribute('src', `./assets/profile-img/${data.foto}`);
     }
 }
 
+/* Recibe los datos que fueron modificados */
 const actualizarDatos = (event) => {
     event.preventDefault();
     const inputs = inputsDelDOM();
@@ -98,6 +102,7 @@ const actualizarDatos = (event) => {
     fetchActualizar(data);
 }
 
+/* Interactua con el servidor para actualiza los datos de un usuario */
 const fetchActualizar = async (data) => {
     const token = document.cookie.split('=')[1];
     try {
@@ -124,19 +129,21 @@ const fetchActualizar = async (data) => {
     }
 }
 
+/* Deshabilita la cuenta de un usuario */
 const eliminarCuenta = (event) => {
     event.preventDefault();
     const borrar = confirm('¿Estás seguro?');
     if (borrar) {
         const idUsuario = document.getElementById('idUsuario').value;
-        fetchEliminar(idUsuario);
-        document.cookie = "token=; max-age=0";
+        fetchEliminar();
+        document.cookie = "token=; max-age=0"; //Cierra la sesion correspondiente
         window.location.replace("./index.html");
         alert('Usuario dado de baja con exito');
     }
 }
 
-const fetchEliminar = async (idUsuario) => {
+/* Interactua con el server para eliminar una cuenta */
+const fetchEliminar = async () => {
     const token = document.cookie.split('=')[1];
     try {
         await fetch(`http://localhost:3000/usuario`, {

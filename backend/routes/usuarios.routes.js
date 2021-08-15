@@ -22,8 +22,7 @@ module.exports = (app) => {
     
     app.get('/usuarios', obtenerUsuarios); //Obtener un conjunto de usuarios
 
-
-    app.post('/images', upload, agregarFoto)
+    app.post('/images', upload, agregarFoto) //Recibe el form para subir una foto
     
     /* Login Usuario */
     app.post('/login', loginUsuario)

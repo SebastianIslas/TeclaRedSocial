@@ -1,3 +1,4 @@
+/* Funcion llamada cuando un usuario se quiere registrar */
 const registro = (event) => {
     event.preventDefault();
     const nombre = document.getElementById('nombre').value;
@@ -27,21 +28,18 @@ const registro = (event) => {
         idiomas, 
         linkedin, 
         hobbies
-    };
-    
-    validarSignIn(data);
-    fetchRegistro(data);
-    
-    
+    };    
+    validarSignIn(data); //Verifica que los datos insertados sean correctos. 
+    fetchRegistro(data);    
 }
 
+/* Interactua con el servidor para registrar un usuario */
 const fetchRegistro = async (data) => {
     try {
         const response = await fetch('http://localhost:3000/usuarios', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
-           
+            'Content-Type': 'application/json'           
           },
           body: JSON.stringify(data)
         });
