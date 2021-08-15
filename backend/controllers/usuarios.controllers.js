@@ -36,6 +36,22 @@ const crearUsuario = async (req, res) => {
     }
 }
 
+/* Obtiene un conjunto de usuarios de una categoria de la bd */
+const obtenerUsuariosCategoria = async (req, res) => {
+    try {
+        const categoria = req.params.categoria;
+        const usuarios = await Usuarios.findAll({
+            attributes: {
+                exclude: ['password']
+              },
+            where: { categoria: categoria}
+        });
+        res.status(200).json(usuarios);
+    } catch (err) {
+        res.status(400).json('Problema al leer los usuario: ' + err.message);
+    }
+}
+
 /* Obtiene un conjunto de usuarios de la bd */
 const obtenerUsuarios = async (req, res) => {
     try {
@@ -122,6 +138,7 @@ const loginUsuario = async (req, res) => {
 /* Post foto */
 const agregarFoto = async (req, res) => {
     const id = req.query.id
+    console.log(id)
     const foto = id + path.extname(req.file.originalname);
     Usuarios.update({ foto },{ where: { id } });
     res.redirect('http://127.0.0.1:5500/frontend/mi-perfil.html')
@@ -130,6 +147,7 @@ const agregarFoto = async (req, res) => {
 module.exports = { 
     crearUsuario,
     obtenerUsuarios,
+    obtenerUsuariosCategoria,
     obtenerUnUsuario,
     actualizarUsuario,
     eliminarUsuario,

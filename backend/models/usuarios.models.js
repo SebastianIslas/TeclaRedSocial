@@ -55,6 +55,11 @@ const Usuarios = db.define('usuarios',{
         type: Sequelize.STRING,
         allowNull: true,
     },
+    descripcion: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        default: "Tu descripcion"
+    },
     categoria: {
         type: Sequelize.ENUM('Backend', 'Frontend','Reclutador'),
         allowNull: false,
