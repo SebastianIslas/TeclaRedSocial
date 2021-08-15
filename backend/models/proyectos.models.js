@@ -32,10 +32,4 @@ const Proyectos = db.define('proyectos',{
     updatedAt: false,
 });
 
-/* Crear la tabla proyectos */
-/*
-Proyectos.sync().then( () => {
-    console.log('Tabla proyectos creada');
-})
-*/
 module.exports = { Proyectos }

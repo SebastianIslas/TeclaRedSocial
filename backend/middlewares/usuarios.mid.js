@@ -30,9 +30,13 @@ const correoExistente = async (req, res, next) => {
 
 const validarToken = (req, res, next) => {
     try {
-        const token = req.headers.authorization.split(' ')[1]
-        req.id = jwt.verify(token, 'secretkey').id_usuario;
-        next();
+        if (req.headers.authorization != undefined){
+            const token = req.headers.authorization.split(' ')[1]
+            req.id = jwt.verify(token, 'secretkey').id_usuario;
+            return next();
+        } else{
+            throw new Error ('Requiere autorización')
+        }
     } catch (err) {
         res.status(500).json(err);
     }

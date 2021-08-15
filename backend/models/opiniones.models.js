@@ -36,12 +36,4 @@ const Opiniones = db.define('opiniones',{
     updatedAt: false,
 });
 
-/* Crear la tabla opiniones */
-
-Opiniones.sync().then( () => {
-    console.log('Tabla opiniones creada');
-})
-
-
-
 module.exports = { Opiniones }

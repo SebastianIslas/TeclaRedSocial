@@ -76,12 +76,4 @@ const Usuarios = db.define('usuarios',{
     updatedAt: false,
 });
 
-
-/* Crear la tabla usuarios */
-/*
-Usuarios.sync().then( () => {
-    console.log('Tabla usuarios creada');
-})
-*/
-
 module.exports = { Usuarios }

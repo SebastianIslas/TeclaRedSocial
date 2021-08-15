@@ -45,11 +45,4 @@ const Habilidades = db.define('habilidades',{
     updatedAt: false,
 });
 
-/* Crear la tabla habilidades */
-/*
-Habilidades.sync().then( () => {
-    console.log('Tabla habilidades creada');
-})
-*/
-
 module.exports = { Habilidades }
