@@ -23,6 +23,7 @@ const cargarDatos = async () => {
 /* Obtiene del DOM los que necesitamos */
 const inputsDelDOM = () => {
     const idUsuario = document.getElementById('idUsuario');
+    const descripcion = document.getElementById('descripcion');
     const nombre = document.getElementById('nombre');
     const apellido = document.getElementById('apellido');
     const email = document.getElementById('email');
@@ -33,13 +34,16 @@ const inputsDelDOM = () => {
     const linkedin = document.getElementById('linkedin');
     const hobbies = document.getElementById('hobbies');
     const edad = document.getElementById('edad');
-    return inputs = { idUsuario, nombre, apellido, email, ciudad, pais, edad, estudios, idiomas, linkedin, hobbies};
+    return inputs = { idUsuario, descripcion, nombre, apellido, email, ciudad, pais, edad, estudios, idiomas, linkedin, hobbies};
 }
 
 /*  Poner por defecto los valores que se obtuvieron de la bd */
 const renderDatos = (data) => {
     const inputs = inputsDelDOM();
     inputs.idUsuario.setAttribute('value', `${data.id}`);
+    if (data.descripcion) {
+        inputs.descripcion.setAttribute('value', `${data.descripcion}`);
+    }
     inputs.nombre.setAttribute('value', `${data.nombre}`);
     inputs.apellido.setAttribute('value', `${data.apellido}`);
     inputs.email.setAttribute('value', `${data.email}`);
@@ -67,6 +71,7 @@ const actualizarDatos = (event) => {
     const edad = document.getElementById('edad').value;
     let data = {
         id: inputs.idUsuario.value,
+        descripcion: inputs.descripcion.value,
         nombre: inputs.nombre.value,
         apellido: inputs.apellido.value,
         email: inputs.email.value,

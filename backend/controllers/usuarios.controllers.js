@@ -85,10 +85,11 @@ const obtenerUnUsuario = async (req, res) => {
 /* Actualiza la informacion de un usuario */
 const actualizarUsuario = async (req, res) => {
     const id = req.id;
-    const { nombre, email, password, ciudad, pais, edad, estudios, idiomas, linkedin, hobbies, categoria, rol} = req.body;
+    const { nombre, descripcion, email, password, ciudad, pais, edad, estudios, idiomas, linkedin, hobbies, categoria, rol} = req.body;
     try {
         Usuarios.update({
             nombre,
+            descripcion,
             email,
             password,
             ciudad,
@@ -147,7 +148,6 @@ const loginUsuario = async (req, res) => {
 /* Actualiza la columna foto de un usuario */
 const agregarFoto = async (req, res) => {
     const id = req.query.id
-    console.log(id);
     const foto = id + path.extname(req.file.originalname); //Concatena el id el usuario con la extension 
     Usuarios.update({ foto },{ where: { id } }); //Actualiza el campo foto
     res.redirect('http://127.0.0.1:5500/frontend/mi-perfil.html') //Redirige a la ventana "mi perfil"
