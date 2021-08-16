@@ -15,5 +15,6 @@ module.exports = (app) => {
     app.get('/habilidades/:id/categorias', getCatHabUsuario);
     app.put('/habilidades/:id/titulo', validarToken, checkTit, actualizarTitulo);
     app.put('/habilidades/:id/evaluar', validarToken, checkEvaluacion, evaluarHabilidad);
+    app.put('/habilidades/:id/evaluar', validarToken, checkEvaluacion, evaluarHabilidad);
     app.delete('/habilidades/:id', validarToken, eliminarHabilidad);
 }

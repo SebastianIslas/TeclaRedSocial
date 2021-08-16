@@ -22,6 +22,7 @@ const renderHabilidades = async (id) => {
 
 //Carga habilidades en vista Perfil (el perfil del mismo usuario en sesion)
 const renderHabilidadesLi = async (id, categoria) => {
+    //Obtiene habilidades del usuario
     const response = await fetch('http://localhost:3000/habilidades/'+id);
 
     let li_template = document.getElementById('hab-cat-li').content;
