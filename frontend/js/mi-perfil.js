@@ -1,3 +1,5 @@
+//Datos de "mi-perfil" de usuario en sesion
+
 window.onload = async () =>{
     cargarDatos();
 }
@@ -13,6 +15,7 @@ const cargarDatos = async () => {
         },
     });
     response.json().then(data => {
+        console.log(data)
         renderDatos(data);
     });
 }
@@ -54,6 +57,7 @@ const renderDatos = (data) => {
         const fotoDePerfil = document.getElementById('fotoDePerfil');
         fotoDePerfil.setAttribute('src', `./assets/profile-img/${data.foto}`);
     }
+    renderHabilidades(data.id); //En script habilidades.js
 }
 
 /* Recibe los datos que fueron modificados */

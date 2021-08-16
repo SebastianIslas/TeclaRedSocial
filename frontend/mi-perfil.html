@@ -125,18 +125,20 @@
             <button class="boton-login" onclick="actualizarDatos(event)"> Guardar </button> <br>
             <button class="btn btn-danger" onclick="eliminarCuenta(event)"> Eliminar mi cuenta </button> <br> <br>
         </section>
-        <!-- Portfolio Section-->
-        <section class="page-section portfolio" id="portfolio">
+
+        
+        <!-- Proyectos Section-->
+        <section class="page-section portfolio" id="proyectos">
             <div class="container">
-                <!-- Portfolio Section Heading-->
-                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Habilidades </h2>
+                <!-- Proyectos Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Proyectos </h2>
                 <!-- Icon Divider-->
                 <div class="divider-custom">
                     <div class="divider-custom-line"></div>
                     <div class="divider-custom-icon"><i class="fa fa-code"></i></div>
                     <div class="divider-custom-line"></div>
                 </div>
-                <!-- Portfolio Grid Items-->
+                <!-- Proyectos Grid Items-->
                 <div class="row justify-content-center">
                     <!-- Portfolio Item 1-->
                     <div class="col-md-6 col-lg-4 mb-5">
@@ -147,76 +149,44 @@
                             <img class="img-fluid" src="assets/img/portfolio/cabin.png" alt="..." />
                         </div>
                     </div>
-                    <!-- Portfolio Item 2-->
-                    <div class="col-md-6 col-lg-4 mb-5">
-                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal2">
-                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
-                            </div>
-                            <img class="img-fluid" src="assets/img/portfolio/cake.png" alt="..." />
-                        </div>
-                    </div>
-                    <!-- Portfolio Item 3-->
-                    <div class="col-md-6 col-lg-4 mb-5">
-                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal3">
-                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
-                            </div>
-                            <img class="img-fluid" src="assets/img/portfolio/circus.png" alt="..." />
-                        </div>
-                    </div>
-                    <!-- Portfolio Item 4-->
-                    <div class="col-md-6 col-lg-4 mb-5 mb-lg-0">
-                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal4">
-                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
-                            </div>
-                            <img class="img-fluid" src="assets/img/portfolio/game.png" alt="..." />
-                        </div>
-                    </div>
-                    <!-- Portfolio Item 5-->
-                    <div class="col-md-6 col-lg-4 mb-5 mb-md-0">
-                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal5">
-                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                                <div class="portfolio-item-caption-content text-center text-white">Aqui lista de blandas</div>
-                            </div>
-                            <img class="img-fluid" src="assets/img/portfolio/safe.png" alt="..." />
-                        </div>
-                    </div>
-                    <!-- Portfolio Item 6-->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal6">
-                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
-                            </div>
-                            <img class="img-fluid" src="assets/img/portfolio/submarine.png" alt="..." />
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
-        <!-- Habilidades Section -->
-        <section class="page-section bg-primary text-white mb-0" id="about">
+
+        <!-- Habilidades Section-->
+        <section class="page-section bg-primary mb-0" id="habilidades">
             <div class="container">
-                <!-- About Section Heading-->
-                <h2 class="page-section-heading text-center text-uppercase text-white">Habilidades</h2>
+                <!-- Habilidades Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase">Habilidades</h2>
                 <!-- Icon Divider-->
-                <div class="divider-custom divider-light">
+                <div class="divider-custom">
                     <div class="divider-custom-line"></div>
                     <div class="divider-custom-icon"><i class="fa fa-code"></i></div>
                     <div class="divider-custom-line"></div>
                 </div>
-                <!-- About Section Content-->
-                <div class="row">
-                    <div class="col-lg-4 me-auto"><p class="lead">Conocimientos</p></div>
-                    <div class="col-lg-4 me-auto"><p class="lead">Tecnologias</p></div>
-                    <div class="col-lg-4 me-auto"><p class="lead">Desempeño</p></div>
-                    <div class="col-lg-4 me-auto"><p class="lead">Habilidades blandas</p></div>
-                    <div class="col-lg-4 me-auto"><p class="lead">Entornos profesionales</p></div>
-                    <div class="col-lg-4 me-auto"><p class="lead">Conocimientos Extras</p></div>
+                <!-- Habilidades Section Content-->
+                <div class="container" id="habilidades">
+
+                   <!-- Template para cada categoria de habilidades --> 
+                    <template id="tempalte-hab-cat">
+                        <div class="container" class="categoria">
+                            <h3 class="titulo">Categoria</h3>
+                            <ul class="container" style ="list-style: none;">
+                            </ul>
+                        </div>
+                        <br>
+                    </template>
+                    <!-- Template para cada elemento de cada categoria -->
+                    <template id="hab-cat-li">
+                        <li  style ="list-style: none;">
+                            <span class="lead text-center">Evaluacion</span>
+                            <span class="ev" style="float:right"></span>
+                        </li>
+                    </template>
                 </div>
             </div>
         </section>
+
         <!-- Contact Section-->
         <section class="page-section" id="contact">
             <div class="container">
@@ -486,13 +456,14 @@
         <!-- Scripts propios -->
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="js/navbar.js"></script>
+        <script src="./js/navbar.js"></script>
+        <script src="./js/habilidades.js"></script>
         <script src="./js/mi-perfil.js"></script>
-
-<!--        <script src="js/navbar.js"></script>
--->
-    <!-- Core theme JS
-        <script src="js/scripts.js"></script>
--->
+        
+        <!--        <script src="js/navbar.js"></script>
+        -->
+        <!-- Core theme JS
+            <script src="js/scripts.js"></script>
+        -->
     </body>
 </html>
