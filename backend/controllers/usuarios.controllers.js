@@ -3,6 +3,7 @@ const { crearJWT } = require('../services/crearJWT.service');
 const bcrypt = require('bcrypt');
 const path = require('path');
 const { Usuarios } = require('../models/usuarios.models');
+const { Seguidores } = require ('../models/seguidores.models');
 const { setHabilidadesDefault } = require('../controllers/habilidades.controllers');
 
 /* Agrega un usuario a la bd */
@@ -24,7 +25,8 @@ const crearUsuario = async (req, res) => {
             linkedin,
             hobbies,
             categoria,
-            rol
+            rol,
+            elimiado: 0
         })
         if(resultado){  //Crea registros en tabla habilidades para el usuario creado
             await setHabilidadesDefault(resultado .id);
@@ -43,7 +45,7 @@ const obtenerUsuariosCategoria = async (req, res) => {
             attributes: {
                 exclude: ['password']
               },
-            where: { categoria: categoria}
+            where: { categoria: categoria, elimiado: 0}
         });
         res.status(200).json(usuarios);
     } catch (err) {
@@ -153,6 +155,47 @@ const agregarFoto = async (req, res) => {
     res.redirect('http://127.0.0.1:5500/frontend/mi-perfil.html') //Redirige a la ventana "mi perfil"
 }
 
+const crearSeguidor = async (req, res) => {
+    const id_seguidor = req.id;
+    const id_seguido = req.body.id;
+    try {
+        await Seguidores.create({ id_seguidor, id_seguido })
+        res.status(201).json('Seguido con exito');
+    } catch (err) {
+        res.status(500).json('No se pudo seguir');
+    }
+}
+
+const obtenerSeguidor = async (req, res) => {
+    const id_seguidor = req.id;
+    const id_seguido = req.params.id;
+    try {
+        const seguido = await Seguidores.findOne({ where: {
+            id_seguidor,
+            id_seguido 
+          }
+        });
+        res.status(200).json(seguido);
+    } catch (err) {
+        res.status(500).json('No se pudo seguir');
+    }
+}
+
+const eliminarSeguidor = async (req, res) => {
+    const id_seguidor = req.id;
+    const id_seguido = req.params.id;
+    try {
+        const seguido = await Seguidores.destroy({ where: {
+            id_seguidor,
+            id_seguido 
+          }
+        });
+        res.status(200).json('Un follow exitoso');
+    } catch (err) {
+        res.status(500).json('No se pudo dejar de seguir');
+    }
+}
+
 module.exports = { 
     crearUsuario,
     obtenerUsuarios,
@@ -161,5 +204,8 @@ module.exports = {
     actualizarUsuario,
     eliminarUsuario,
     loginUsuario,
-    agregarFoto
+    agregarFoto,
+    crearSeguidor,
+    obtenerSeguidor,
+    eliminarSeguidor
 }

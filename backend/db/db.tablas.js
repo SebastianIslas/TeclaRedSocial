@@ -1,5 +1,5 @@
 
-const { Contactos } = require('../models/contactos.models');
+const { Seguidores } = require('../models/seguidores.models');
 const { Habilidades } = require('../models/habilidades.models');
 //const habilidades_det = require('../models/habilidades_det.models');
 const { Opiniones } = require('../models/opiniones.models');
@@ -12,8 +12,8 @@ Usuarios.sync().then( () => {
     console.log("Tabla usuarios creada");
 })
 
-Contactos.sync().then(() => {
-    console.log('Tabla contactos creada');
+Seguidores.sync().then(() => {
+    console.log('Tabla Seguidores creada');
 })
 
 Habilidades.sync().then( () => {

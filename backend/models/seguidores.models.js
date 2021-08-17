@@ -1,13 +1,13 @@
 const { Sequelize }  = require('sequelize');
 const db = require('../db/db.conexion');
 
-const Contactos = db.define('contactos',{
+const Seguidores = db.define('seguidores',{
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    id_usuario: {
+    id_seguidor: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -15,7 +15,7 @@ const Contactos = db.define('contactos',{
             key: 'id'
         }
     },
-    id_contacto: {
+    id_seguido: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -34,4 +34,4 @@ const Contactos = db.define('contactos',{
 
 
 
-module.exports = { Contactos }
+module.exports = { Seguidores }
