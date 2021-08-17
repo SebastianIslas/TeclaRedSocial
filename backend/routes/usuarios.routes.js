@@ -9,8 +9,13 @@ const {
     obtenerUnUsuario,
     actualizarUsuario,
     eliminarUsuario,
+
     loginUsuario,
-    agregarFoto
+    agregarFoto,
+
+    crearSeguidor,
+    obtenerSeguidor,
+    eliminarSeguidor
 } =require('../controllers/usuarios.controllers')
 
 
@@ -29,4 +34,10 @@ module.exports = (app) => {
     
     /* Login Usuario */
     app.post('/login', loginUsuario)
+
+    /* CRUD Following Usuarios*/
+    app.post('/seguidores', validarToken, crearSeguidor);
+    app.get('/seguidores/:id', validarToken, obtenerSeguidor);
+    app.delete('/seguidores/:id', validarToken, eliminarSeguidor);
+
 }

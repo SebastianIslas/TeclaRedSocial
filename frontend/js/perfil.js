@@ -22,7 +22,7 @@ window.onload = async () =>{
             }
         });    
     }
-
+    esSeguidor();
 }
 
 
@@ -42,7 +42,9 @@ const renderDatos = (data) =>{
     document.getElementById('descripcion').textContent = data.descripcion;
     document.getElementById('email').textContent = data.email;
     document.getElementById('linkedin').textContent = data.linkedin;
-    document.getElementById('foto').src = "assets/profile-img/" +data.foto;
+    if (data.foto) { //Si el usuario ya agrego una foto, la muestra 
+        document.getElementById('foto').src = "assets/profile-img/" +data.foto;
+    }
     //Datos generales
     document.getElementById('edad').textContent = data.edad;
     document.getElementById('ubicacion').textContent = data.pais + ", " + data.ciudad;
@@ -80,4 +82,102 @@ const valorar = (id) => {
     let formulario = document.getElementById('formularioValorar');
     let formData = new FormData(formulario);
     console.log(formData);
+}
+
+/* Accion cuando el usuario da click en 'seguir' */
+const follow = async (event) => {
+    event.preventDefault();
+    const token = document.cookie.split('=')[1];
+    let queryString = window.location.search;
+    let urlParams = new URLSearchParams(queryString);
+    let id = urlParams.get('id');
+    const data = { id };
+    try {
+        const response = await fetch('http://localhost:3000/seguidores', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
+            'Content-Type': 'application/json'           
+          },
+          body: JSON.stringify(data)
+        });
+        if (response.status === 201) {
+            response.json().then(json => {
+                window.location.reload(true);
+            });
+        } else {
+            response.json().then(json => {
+                alert(json);
+                return;
+            });
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+/* Verifica en el servidor si el seguimos al usuario de cierto perfil */
+const esSeguidor = async () => {
+    const token = document.cookie.split('=')[1];
+    let queryString = window.location.search;
+    let urlParams = new URLSearchParams(queryString);
+    let id = urlParams.get('id');
+
+    try {
+        const response = await fetch(`http://localhost:3000/seguidores/${id}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
+            'Content-Type': 'application/json'           
+          },
+        });
+        response.json().then(data => {
+            console.log(data);
+            if (data) {
+                cambiarBotton();
+            }
+
+        })
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+/* Cambiamos el boton en funcion de si seguimos o no a un usuario */
+const cambiarBotton = () => {
+    const botonSeguir = document.getElementById('botonSeguir');
+    botonSeguir.innerHTML = "Siguiendo";
+    botonSeguir.className = 'seguido';
+    botonSeguir.removeAttribute('onclick');
+    botonSeguir.setAttribute('onclick', 'unFollow()');
+}
+
+/* Funcion para dejar de seguir a un usuario */
+const unFollow = async () => {
+    // event.preventDefault();
+    const token = document.cookie.split('=')[1];
+    let queryString = window.location.search;
+    let urlParams = new URLSearchParams(queryString);
+    let id = urlParams.get('id');
+    try {
+        const response = await fetch(`http://localhost:3000/seguidores/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
+            'Content-Type': 'application/json'           
+          },
+        });
+        if (response.status === 200) {
+            response.json().then(json => {
+                window.location.reload(true);
+            });
+        } else {
+            response.json().then(json => {
+                alert(json);
+                return;
+            });
+        }
+    } catch (err) {
+        console.log(err);
+    }
 }
