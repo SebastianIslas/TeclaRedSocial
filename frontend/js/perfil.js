@@ -76,8 +76,23 @@ const habilidadesValorarRender = async (id) =>{
 }
 
 //Recibe id de usuario a valorar
-const valorar = (id) => {
+const valorar = async (id) => {
+    const cookie = document.cookie.split('=');
     let formulario = document.getElementById('formularioValorar');
     let formData = new FormData(formulario);
-    console.log(formData);
+//    console.log(formData.get('comentario'));
+    let data = {}
+    for (p of formData) {
+        data[p[0]] = p[1];
+    }
+    console.log(data);
+    const response = await fetch('http://localhost:3000/habilidades/'+id+'/validar',{
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${cookie[1]}`, //Mandamos el token del usuario que valorara
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    console.log('salio');
 }

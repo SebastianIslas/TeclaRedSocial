@@ -101,6 +101,29 @@ const actualizarTitulo = async (req, res) => {
     }
 }
 
+
+//Evalua las habilidades de un usuario y la opinion del mismo
+const evaluarUsuario = async (req, res) =>{
+    try {
+        console.log('entro');
+/*
+        for (let key in req.body) {
+            console.log(key);
+            if (req.body.hasOwnProperty(key)) {
+                console.log('key')
+                item = req.body[key];
+                console.log('value')
+              console.log(item);
+            }
+          }
+*/
+          res.status(200).json('BIEN')
+        } catch (error) {
+        res.status(500).json(error.message)
+    }
+}
+
+
 //Evalua una habilidad que no sea propia del usuario en sesion
 const evaluarHabilidad = async (req, res) =>{
     try {        
@@ -168,5 +191,6 @@ module.exports = {
     getCatHabUsuario,
     actualizarTitulo,
     evaluarHabilidad,
+    evaluarUsuario,
     eliminarHabilidad,
 }
