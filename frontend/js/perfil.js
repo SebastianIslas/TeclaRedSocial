@@ -22,7 +22,8 @@ window.onload = async () =>{
             }
         });    
     }
-    esSeguidor();
+    revisarSolicitud(id);
+    revisarAmistad(id);
 }
 
 
@@ -100,7 +101,7 @@ const valorar = async (id) => {
 }
 
 /* Accion cuando el usuario da click en 'seguir' */
-const follow = async (event) => {
+const enviarSolicitud = async (event) => {
     event.preventDefault();
     const token = document.cookie.split('=')[1];
     let queryString = window.location.search;
@@ -108,7 +109,7 @@ const follow = async (event) => {
     let id = urlParams.get('id');
     const data = { id };
     try {
-        const response = await fetch('http://localhost:3000/seguidores', {
+        const response = await fetch('http://localhost:3000/solicitud', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
@@ -118,6 +119,7 @@ const follow = async (event) => {
         });
         if (response.status === 201) {
             response.json().then(json => {
+                alert('Solicitud enviada');
                 window.location.reload(true);
             });
         } else {
@@ -131,51 +133,70 @@ const follow = async (event) => {
     }
 }
 
-/* Verifica en el servidor si el seguimos al usuario de cierto perfil */
-const esSeguidor = async () => {
+/* Verifica en el servidor si ya existe una solicitud de amistad */
+const revisarSolicitud = async (id) => {
     const token = document.cookie.split('=')[1];
-    let queryString = window.location.search;
-    let urlParams = new URLSearchParams(queryString);
-    let id = urlParams.get('id');
 
     try {
-        const response = await fetch(`http://localhost:3000/seguidores/${id}`, {
+        const response = await fetch(`http://localhost:3000/solicitud/${id}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
             'Content-Type': 'application/json'           
           },
         });
-        response.json().then(data => {
-            console.log(data);
-            if (data) {
-                cambiarBotton();
-            }
-
-        })
+        if (response.status === 200) {
+            solicitudEnviada(id); //Si existe una solicitud, cambiamos el boton
+        }
     } catch (err) {
         console.log(err);
     }
 }
 
-/* Cambiamos el boton en funcion de si seguimos o no a un usuario */
-const cambiarBotton = () => {
-    const botonSeguir = document.getElementById('botonSeguir');
-    botonSeguir.innerHTML = "Siguiendo";
-    botonSeguir.className = 'seguido';
-    botonSeguir.removeAttribute('onclick');
-    botonSeguir.setAttribute('onclick', 'unFollow()');
+/* Verifica en el servidor si ya existe una amistad de cierto perfil */
+const revisarAmistad = async (id) => {
+    const token = document.cookie.split('=')[1];
+
+    try {
+        const response = await fetch(`http://localhost:3000/amistad/${id}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
+            'Content-Type': 'application/json'           
+          },
+        });
+        if (response.status === 200) {
+            amistadCreada();
+        }
+    } catch (err) {
+        console.log(err);
+    }
 }
 
-/* Funcion para dejar de seguir a un usuario */
-const unFollow = async () => {
+/* Cambiamos el boton en funcion de si ya son amigos*/
+const amistadCreada = () => {
+    const botonAgregar = document.getElementById('botonAgregar');
+    botonAgregar.innerHTML = " Amigos";
+    botonAgregar.className = 'amigos';
+    botonAgregar.removeAttribute('onclick');
+}
+
+/* Cambiamos el boton en funcion de si ya se envio una solicitud de amistad*/
+const solicitudEnviada = (id) => {
+    const botonAgregar = document.getElementById('botonAgregar');
+    botonAgregar.innerHTML = " Cancelar Solicitud";
+    botonAgregar.className = 'enviada';
+    botonAgregar.removeAttribute('onclick');
+    botonAgregar.setAttribute('onclick', `cancelarSolicitud(${id})`);
+}
+
+/* Funcion para cancelar una solicitud de amistad*/
+const cancelarSolicitud = async (id) => {
     // event.preventDefault();
     const token = document.cookie.split('=')[1];
-    let queryString = window.location.search;
-    let urlParams = new URLSearchParams(queryString);
-    let id = urlParams.get('id');
+    
     try {
-        const response = await fetch(`http://localhost:3000/seguidores/${id}`, {
+        const response = await fetch(`http://localhost:3000/solicitud/${id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
@@ -184,6 +205,7 @@ const unFollow = async () => {
         });
         if (response.status === 200) {
             response.json().then(json => {
+                alert(json);
                 window.location.reload(true);
             });
         } else {

@@ -1,3 +1,4 @@
+const token = document.cookie.split('=')[1];
 
 /* Cambiara la barra de navegacion si el usuario está loggeado */
 const cambiarNavBar = () => {
@@ -17,12 +18,28 @@ const cambiarNavBar = () => {
         liPerfil.appendChild(linkPerfil);
         ulNavbar.appendChild(liPerfil);
 
+        /* Insertamos la notificaciones */
+        const liAlerta = document.createElement('li');
+        liAlerta.classList = 'nav-item mx-0 mx-lg-1 liAlerta';
+        const linkAlerta = document.createElement('a');
+        linkAlerta.classList = 'nav-link py-3 px-0 px-lg-3 rounded';
+        linkAlerta.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
+        <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>
+        </svg>`;
+        linkAlerta.setAttribute('href', './notificaciones.html');
+        contadorNotificaciones(linkAlerta);
+        liAlerta.appendChild(linkAlerta); 
+        ulNavbar.appendChild(liAlerta);
+
         /* Inserta la opcion 'log out' a la barra de navegacion */
         const liLogout = document.createElement('li');
         liLogout.classList = 'nav-item mx-0 mx-lg-1';
         const linkLogout = document.createElement('a');
         linkLogout.classList = 'nav-link py-3 px-0 px-lg-3 rounded';
-        linkLogout.innerHTML = `Logout <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" d="M10.604 1h4.146a.25.25 0 01.25.25v4.146a.25.25 0 01-.427.177L13.03 4.03 9.28 7.78a.75.75 0 01-1.06-1.06l3.75-3.75-1.543-1.543A.25.25 0 0110.604 1zM3.75 2A1.75 1.75 0 002 3.75v8.5c0 .966.784 1.75 1.75 1.75h8.5A1.75 1.75 0 0014 12.25v-3.5a.75.75 0 00-1.5 0v3.5a.25.25 0 01-.25.25h-8.5a.25.25 0 01-.25-.25v-8.5a.25.25 0 01.25-.25h3.5a.75.75 0 000-1.5h-3.5z"></path></svg>`;
+        linkLogout.innerHTML = `Logout <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+      </svg>`;
         linkLogout.setAttribute('href', './index.html');
         linkLogout.addEventListener('click', function() {
             document.cookie = "token=; max-age=0";
@@ -30,6 +47,26 @@ const cambiarNavBar = () => {
         liLogout.appendChild(linkLogout);
         ulNavbar.appendChild(liLogout);
     }
+}
+
+/* Solicita al backend la cantidad de notificaciones que tiene un usuario y las muestra en la navbar */
+const contadorNotificaciones = async (linkAlerta) => {
+  try {
+      const response = await fetch(`http://localhost:3000/solicitud`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
+          'Content-Type': 'application/json'           
+        },
+      });
+      response.json().then(data => {
+        if (data.length > 0) {
+          linkAlerta.innerHTML += ` ${data.length}`;
+        }
+      });
+  } catch (err) {
+      console.log(err);
+  }
 }
 
 cambiarNavBar();

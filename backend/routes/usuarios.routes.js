@@ -11,11 +11,7 @@ const {
     eliminarUsuario,
 
     loginUsuario,
-    agregarFoto,
-
-    crearSeguidor,
-    obtenerSeguidor,
-    eliminarSeguidor
+    agregarFoto
 } =require('../controllers/usuarios.controllers')
 
 
@@ -30,14 +26,8 @@ module.exports = (app) => {
     app.get('/usuarios', obtenerUsuarios); //Obtener un conjunto de usuarios
     app.get('/usuarios/:categoria', obtenerUsuariosCategoria); //Obtener un conjunto de usuarios de una categoria
 
-    app.post('/images', upload, agregarFoto) //Recibe el form para subir una foto
+    app.post('/images', upload, agregarFoto); //Recibe el form para subir una foto
     
     /* Login Usuario */
-    app.post('/login', loginUsuario)
-
-    /* CRUD Following Usuarios*/
-    app.post('/seguidores', validarToken, crearSeguidor);
-    app.get('/seguidores/:id', validarToken, obtenerSeguidor);
-    app.delete('/seguidores/:id', validarToken, eliminarSeguidor);
-
+    app.post('/login', loginUsuario);
 }

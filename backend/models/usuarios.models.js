@@ -68,7 +68,7 @@ const Usuarios = db.define('usuarios',{
         type: Sequelize.ENUM('Developer', 'Empresa'),
         allowNull: false,
     },
-    elimiado: {
+    eliminado: {
         type: Sequelize.INTEGER,
         default: 0
     }

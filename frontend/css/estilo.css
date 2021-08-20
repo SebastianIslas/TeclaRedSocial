@@ -15,7 +15,6 @@ section div a{
     margin: -1rem 7rem;
     min-height: 300px;
     padding: 50px;
-    position: relative;
     background-color: #ffffff; /* Color de fondo */
     border-radius: 1rem;
 }
@@ -107,7 +106,7 @@ label{
     }
 }
 
-.botonSeguir {
+.botonAgregar {
     background-color: rgba(43, 61, 79, 0.5);
     border: none;
     border: 2px solid #fff;
@@ -119,11 +118,12 @@ label{
     transition: background-color 0.5s;
 }
 
-.botonSeguir:hover {
+.botonAgregar:hover {
     background-color: #2c3e50;
+    
 }
 
-.seguido {
+.enviada {
     background-color: rgba(43, 61, 79);
     border: none;
     border: 2px solid #fff;
@@ -135,6 +135,56 @@ label{
     transition: background-color 0.5s;
 }
 
-.seguido:hover {
+.enviada:hover {
     background-color: rgba(43, 61, 79, 0.5);
+}
+
+.amigos {
+    background-color: rgba(43, 61, 79);
+    border: none;
+    border: 2px solid #fff;
+    border-radius: 20px;
+    color: #fff;
+    height: 40px;
+    margin: 5px;
+    padding: 0 30px;
+}
+
+/* //////////////////////////////////////////////////////////////////////////
+Notificaciones
+////////////////////////////////////////////////////////////////////////////*/
+
+
+.contenedor-ntfs{
+    background-color: #fff; /* Color de fondo */
+    border-radius: 1rem;
+    margin: 1rem 7rem;
+    min-height: 300px;
+    padding: 50px;
+}
+
+.card-notificacion {
+    align-items: center;
+    background-color: rgb(44, 62, 80);
+    border-radius: 5px;
+    box-shadow: 0.5px 0.5px 5px 0.5px #00000083;
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem;
+    padding: 0.5rem;
+
+}
+
+@media (max-width:640px) {
+    .card-notificacion {
+        display: block;
+    }
+    .contenedor-ntfs{
+        margin: 1rem;
+    }
+}
+
+.img-notificacion {
+    border-radius: 5px;
+    height: 50px;
 }

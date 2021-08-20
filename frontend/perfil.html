@@ -29,7 +29,7 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto" id="ulNavbar">
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#datos">Datos</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#proyectos">Proyectos</a></li>
+                        <!-- <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#proyectos">Proyectos</a></li> -->
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#habilidades">Habilidades</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#fedback">Opiniones</a></li>
                         <li class="nav-item mx-0 mx-lg-1" id="liLog"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="./login.html">Login</a></li>
@@ -45,7 +45,7 @@
                 <!-- Masthead Heading-->
                 <h1 class="masthead-heading text-uppercase mb-0" id ="nombre"></h1>
                 <br>
-                <button id="botonSeguir" class="botonSeguir" onclick="follow(event)">Seguir ❤ </button> <br>
+                <button id="botonAgregar" class="botonAgregar" onclick="enviarSolicitud(event)"> Agregar + </button> <br>
                 <h3 class="text-uppercase mb-0" id ="categoria"></h3>
                 <!-- Icon Divider-->
                 <div class="divider-custom">
@@ -80,62 +80,15 @@
                 </div>
                 <div class="info_user page-section-heading text-center">
                     <h5>Edad:  <span id="edad">Edad</span></h5>
-                    <h5>Ubicación: <span id="ubicacion">Ubicacion</span></h5>
-                    <h5>Estudios: <span id="estudios">Est</span></h5>
-                    <h5>Idiomas: <span id="idiomas">Idiomas</span></h5>
-                    <h5>Hobbies: <span id="hobbies">Hobbies</span></h5>
+                    <h5>Ubicación: <span id="ubicacion"></span></h5>
+                    <h5>Estudios: <span id="estudios"></span></h5>
+                    <h5>Idiomas: <span id="idiomas"></span></h5>
+                    <h5>Hobbies: <span id="hobbies"></span></h5>
                 </div>
                 <br>
             </div>
         </section>
 
-        <!-- Proyectos Section-->
-        <section class="page-section bg-primary portfolio" id="proyectos">
-            <div class="container">
-                <!-- Proyectos Section Heading-->
-                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Proyectos</h2>
-                <!-- Icon Divider-->
-                <div class="divider-custom">
-                    <div class="divider-custom-line"></div>
-                    <div class="divider-custom-icon"><i class="fa fa-code"></i></div>
-                    <div class="divider-custom-line"></div>
-                </div>
-                <template>
-                    <!-- Proyecto Template-->
-                    <div class="row justify-content-center">
-                        <!-- Proyecto Item 1-->
-                    <div class="col-md-6 col-lg-4 mb-5">
-                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal1">
-                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                                <div class="portfolio-item-caption-content text-center text-white"></div>
-                            </div>
-                            <div class= "img-fluid">
-                                <h5>NOMBRE AQUI</h5>
-                                <img src="" alt=""id="foto" width ="100%" height ="400px">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </template>
-                
-                <!-- Proyectos Grid Items-->
-                <div class="row justify-content-center">
-                    <!-- Proyectos Item 1-->
-                    <div class="col-md-6 col-lg-4 mb-5">
-                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal1">
-                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                                <div class="portfolio-item-caption-content text-center text-white">VER DETALLES</div>
-                            </div>
-                            <div class= "img-fluid">
-                                <h5>NOMBRE AQUI</h5>
-                                <img src="" alt=""id="foto" width ="100%" height ="400px">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
         <!-- Habilidades Section-->
         <section class="page-section mb-0" id="habilidades">
             <div class="container">

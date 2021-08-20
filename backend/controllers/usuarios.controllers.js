@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
-const { crearJWT } = require('../services/crearJWT.service');
 const bcrypt = require('bcrypt');
 const path = require('path');
 const { Usuarios } = require('../models/usuarios.models');
-const { Seguidores } = require ('../models/seguidores.models');
+const { Amistad } = require ('../models/amistad.models');
 const { setHabilidadesDefault } = require('../controllers/habilidades.controllers');
+const { crearJWT } = require('../services/crearJWT.service');
 
 /* Agrega un usuario a la bd */
 const crearUsuario = async (req, res) => {
@@ -26,7 +26,7 @@ const crearUsuario = async (req, res) => {
             hobbies,
             categoria,
             rol,
-            elimiado: 0
+            eliminado: 0
         })
         if(resultado){  //Crea registros en tabla habilidades para el usuario creado
             await setHabilidadesDefault(resultado .id);
@@ -45,7 +45,7 @@ const obtenerUsuariosCategoria = async (req, res) => {
             attributes: {
                 exclude: ['password']
               },
-            where: { categoria: categoria, elimiado: 0}
+            where: { categoria: categoria, eliminado: 0}
         });
         res.status(200).json(usuarios);
     } catch (err) {
@@ -116,7 +116,7 @@ const actualizarUsuario = async (req, res) => {
 const eliminarUsuario = async (req, res) => {
     const id = req.id;
     try {
-        Usuarios.update({ elimiado: 1 }, { where: { id } }); //Cambia el campo de eliminado a true.
+        Usuarios.update({ eliminado: 1 }, { where: { id } }); //Cambia el campo de eliminado a true.
         res.send('Usuario eliminado con exito');
     } catch (err) {
         res.status(400).json('Problema al eliminar el usuario: ' + err.message);
@@ -136,8 +136,8 @@ const loginUsuario = async (req, res) => {
         if (!passwordCorecto) {
             return res.status(400).json('Datos incorrectos.');
         }
-        if (usuario.dataValues.elimiado == 1) {
-            await Usuarios.update({ elimiado: 0 }, { where: { id: usuario.dataValues.id } }); //En caso que el usuario este deshabilidato, lo activa
+        if (usuario.dataValues.eliminado == 1) {
+            await Usuarios.update({ eliminado: 0 }, { where: { id: usuario.dataValues.id } }); //En caso que el usuario este deshabilidato, lo activa
         }
         const token = await crearJWT(usuario.dataValues.id); //Genera un token para el usuario
         return res.status(200).json(token);
@@ -146,54 +146,12 @@ const loginUsuario = async (req, res) => {
     }
 }
 
-
 /* Actualiza la columna foto de un usuario */
 const agregarFoto = async (req, res) => {
     const id = req.query.id
     const foto = id + path.extname(req.file.originalname); //Concatena el id el usuario con la extension 
     Usuarios.update({ foto },{ where: { id } }); //Actualiza el campo foto
     res.redirect('http://127.0.0.1:5500/frontend/mi-perfil.html') //Redirige a la ventana "mi perfil"
-}
-
-const crearSeguidor = async (req, res) => {
-    const id_seguidor = req.id;
-    const id_seguido = req.body.id;
-    try {
-        await Seguidores.create({ id_seguidor, id_seguido })
-        res.status(201).json('Seguido con exito');
-    } catch (err) {
-        res.status(500).json('No se pudo seguir');
-    }
-}
-
-const obtenerSeguidor = async (req, res) => {
-    const id_seguidor = req.id;
-    const id_seguido = req.params.id;
-    try {
-        const seguido = await Seguidores.findOne({ where: {
-            id_seguidor,
-            id_seguido 
-          }
-        });
-        res.status(200).json(seguido);
-    } catch (err) {
-        res.status(500).json('No se pudo seguir');
-    }
-}
-
-const eliminarSeguidor = async (req, res) => {
-    const id_seguidor = req.id;
-    const id_seguido = req.params.id;
-    try {
-        const seguido = await Seguidores.destroy({ where: {
-            id_seguidor,
-            id_seguido 
-          }
-        });
-        res.status(200).json('Un follow exitoso');
-    } catch (err) {
-        res.status(500).json('No se pudo dejar de seguir');
-    }
 }
 
 module.exports = { 
@@ -204,8 +162,5 @@ module.exports = {
     actualizarUsuario,
     eliminarUsuario,
     loginUsuario,
-    agregarFoto,
-    crearSeguidor,
-    obtenerSeguidor,
-    eliminarSeguidor
+    agregarFoto
 }

@@ -1,13 +1,13 @@
 const { Sequelize }  = require('sequelize');
 const db = require('../db/db.conexion');
 
-const Seguidores = db.define('seguidores',{
+const Solicitud = db.define('solicitud',{
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    id_seguidor: {
+    id_solicitante: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -15,7 +15,7 @@ const Seguidores = db.define('seguidores',{
             key: 'id'
         }
     },
-    id_seguido: {
+    id_solicitado: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -23,6 +23,10 @@ const Seguidores = db.define('seguidores',{
             key: 'id'
         }
     },
+    aceptado: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+    }
 }, {
     // don't add the timestamp attributes (updatedAt, createdAt)
     timestamps: false,
@@ -32,6 +36,13 @@ const Seguidores = db.define('seguidores',{
     updatedAt: false,
 });
 
+const obtenerSolicitudes = (id_solicitado) => {
+    const solicitudes = db.query(`SELECT dbo.usuarios.id, dbo.usuarios.nombre, dbo.usuarios.apellido, dbo.usuarios.foto FROM  dbo.usuarios
+    JOIN dbo.solicituds ON dbo.usuarios.id = dbo.solicituds.id_solicitante
+    WHERE dbo.solicituds.id_solicitado = ${id_solicitado};`)
+    return solicitudes;
+}
 
 
-module.exports = { Seguidores }
+
+module.exports = { Solicitud, obtenerSolicitudes }

@@ -13,9 +13,7 @@ const cargarTeclers = async (categoria) => {
     let teclers_gallery = document.getElementById('teclers');
     const fragment = document.createDocumentFragment();
     response.json().then(data => {
-        console.log(data)
         data.forEach(tecler => {
-            console.log(tecler)
             templateBody.querySelector('#tecler').setAttribute('onclick','verTecler('+tecler.id+')');
             templateBody.querySelector('h5').setAttribute('id',tecler.id);
             templateBody.querySelector('h5').textContent = tecler.nombre + " " + tecler.apellido;
@@ -23,7 +21,6 @@ const cargarTeclers = async (categoria) => {
             templateBody.querySelector('#descripcion').textContent = tecler.descripcion;
             const clone = templateBody.cloneNode(true);
             fragment.appendChild(clone);
-            console.log(tecler.email);
         })
         teclers_gallery.appendChild(fragment);
     });
