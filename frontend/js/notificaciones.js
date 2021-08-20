@@ -9,10 +9,13 @@ const obtenerNotificacion = async () => {
         },
       });
       response.json().then(data => {
-        console.log(data);
+        if (data.length > 0) {
+          document.getElementById('contNotificaciones').innerHTML = '';
           data.forEach(solicitud => {
             renderSolicitud(solicitud);
           });
+          
+        }        
       });
   } catch (err) {
       console.log(err);
@@ -21,7 +24,6 @@ const obtenerNotificacion = async () => {
 
 /* Desplegamos en pantalla cada solicitud */
 const renderSolicitud = (solicitud) => {
-  const contNotificaciones = document.getElementById('contNotificaciones');
   const card = document.createElement('div');
   card.className = 'card-notificacion'
 
@@ -55,7 +57,6 @@ const renderSolicitud = (solicitud) => {
 
 /* El usuario acepta una solicitud */
 const aceptarAmistad = async (id_solicitante) => {
-  console.log(id_solicitante);
   const data = { id_solicitante };
   try {
       const response = await fetch('http://localhost:3000/amistad', {
@@ -82,7 +83,7 @@ const aceptarAmistad = async (id_solicitante) => {
 /* El usuario rechaza una solicitud */
 const rechazarAmistad = async (id_solicitante) => {
   try {
-      const response = await fetch(`http://localhost:3000/amistad/${id_solicitante}`, {
+      const response = await fetch(`http://localhost:3000/solicitud/rechazar/${id_solicitante}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide

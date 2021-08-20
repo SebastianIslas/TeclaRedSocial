@@ -159,8 +159,11 @@ Notificaciones
     background-color: #fff; /* Color de fondo */
     border-radius: 1rem;
     margin: 1rem 7rem;
-    min-height: 300px;
     padding: 50px;
+}
+
+#sinSolicitudes {
+    color: #000;
 }
 
 .card-notificacion {
@@ -172,7 +175,6 @@ Notificaciones
     justify-content: space-between;
     margin: 0.5rem;
     padding: 0.5rem;
-
 }
 
 @media (max-width:640px) {

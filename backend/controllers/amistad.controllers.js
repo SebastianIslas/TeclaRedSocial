@@ -43,7 +43,7 @@ const obtenerNotificacion = async (req, res) => {
 }
 
 /* En caso de que el usuario cancele la solicitud, la eliminamos */
-const eliminarSolicitud = async (req, res) => {
+const cancelarSolicitud = async (req, res) => {
     const id_solicitante = req.id;
     const id_solicitado = req.params.id;
     try {
@@ -58,6 +58,18 @@ const eliminarSolicitud = async (req, res) => {
     } 
 }
 
+/* Si se rechaza una solicitud, entonces, la eliminamos */
+const rechazarSolicitud = async (req, res) => {
+    const id_solicitante = req.params.id;
+    const id_solicitado = req.id;
+    try {
+        await Solicitud.destroy({ where: { id_solicitante, id_solicitado } });
+        res.status(200).json('Amistad eliminada');
+    } catch (err) {
+        res.status(500).json('Error al eliminar la amistad');
+    }
+}
+
 /* Si el usuario acepta la solicitud, se crea la amistad */
 const crearAmistad = async (req, res) => {
     const id_amigo1 = req.body.id_solicitante;
@@ -68,18 +80,6 @@ const crearAmistad = async (req, res) => {
         res.status(200).json('Amistad creada');
     } catch (err) {
         res.status(500).json('Error al crear la amistad');
-    }
-}
-
-/* Si se rechaza una solicitud, entonces, la eliminamos */
-const rechazarAmistad = async (req, res) => {
-    const id_solicitante = req.params.id;
-    const id_solicitado = req.id;
-    try {
-        await Solicitud.destroy({ where: { id_solicitante, id_solicitado } });
-        res.status(200).json('Amistad eliminada');
-    } catch (err) {
-        res.status(500).json('Error al eliminar la amistad');
     }
 }
 
@@ -107,18 +107,29 @@ const obtenerAmistad = async (req, res) => {
     } catch (err) {
         res.status(500).json('Error al solicitar la informacion');            
     }
-    console.log('obtenerAmistad: ', id_amigo1, id_amigo2);
 }
 
-
+const eliminarAmistad = async (req, res) => {
+    let id_amigo1 =  req.id; //El id que pasa el middleware
+    let id_amigo2 =  req.params.id; //El id que se pasa en el la url desde el front
+    const amistad = await Amistad.findOne({ where: { id_amigo1, id_amigo2 } });
+    if (amistad) {
+        await Amistad.destroy({ where: { id_amigo1, id_amigo2 } });
+    } else {
+        id_amigo1 =  req.params.id;
+        id_amigo2 =  req.id;
+        await Amistad.destroy({ where: { id_amigo1, id_amigo2 } });
+    }
+}
 
 module.exports = { 
     crearSolicitud,
     obtenerSolicitud,
     obtenerNotificacion,
-    eliminarSolicitud,
+    cancelarSolicitud,
+    rechazarSolicitud,
     
     crearAmistad,
-    rechazarAmistad,
-    obtenerAmistad
+    obtenerAmistad,
+    eliminarAmistad
 }

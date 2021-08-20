@@ -5,10 +5,12 @@ const {
     crearSolicitud,
     obtenerSolicitud,
     obtenerNotificacion,
-    eliminarSolicitud,
+    cancelarSolicitud,
+    rechazarSolicitud,
+    
     crearAmistad,
-    rechazarAmistad,
-    obtenerAmistad
+    obtenerAmistad,
+    eliminarAmistad
 } =require('../controllers/amistad.controllers')
 
 
@@ -17,11 +19,13 @@ module.exports = (app) => {
     app.post('/solicitud', validarToken, crearSolicitud);
     app.get('/solicitud', validarToken, obtenerNotificacion);
     app.get('/solicitud/:id', validarToken, obtenerSolicitud);
-    app.delete('/solicitud/:id', validarToken, eliminarSolicitud);
+    app.delete('/solicitud/cancelar/:id', validarToken, cancelarSolicitud);
+    app.delete('/solicitud/rechazar/:id', validarToken, rechazarSolicitud);
 
     /* CRUD Amistad*/
     app.post('/amistad', validarToken, crearAmistad);
-    app.delete('/amistad/:id', validarToken, rechazarAmistad);
     app.get('/amistad/:id', validarToken, obtenerAmistad);
+    app.delete('/amistad/:id', validarToken, eliminarAmistad);
+
 
 }

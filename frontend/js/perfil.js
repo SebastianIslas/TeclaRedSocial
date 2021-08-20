@@ -31,7 +31,6 @@ window.onload = async () =>{
 const cargarDatos = async (id) => {
     const response = await fetch(`http://localhost:3000/usuario/`+id);
     response.json().then(data => {
-        console.log(data);
         renderDatos(data);
     });
 }
@@ -65,9 +64,7 @@ const habilidadesValorarRender = async (id) =>{
     const fragment = document.createDocumentFragment();
     
     response.json().then(habilidades => {
-        console.log(habilidades)
         habilidades.forEach(habilidad => {
-            console.log(habilidad)
             templateLi.querySelector('span').textContent = habilidad.titulo;
             templateLi.querySelector('select').setAttribute('name',habilidad.id);
             const clone = templateLi.cloneNode(true);
@@ -83,12 +80,10 @@ const valorar = async (id) => {
     const cookie = document.cookie.split('=');
     let formulario = document.getElementById('formularioValorar');
     let formData = new FormData(formulario);
-//    console.log(formData.get('comentario'));
     let data = {}
     for (p of formData) {
         data[p[0]] = p[1];
     }
-    console.log(data);
     const response = await fetch('http://localhost:3000/habilidades/'+id+'/validar',{
         method: 'POST',
         headers: {
@@ -97,13 +92,11 @@ const valorar = async (id) => {
         },
         body: JSON.stringify(data)
     });
-    console.log('salio');
 }
 
 /* Accion cuando el usuario da click en 'seguir' */
 const enviarSolicitud = async (event) => {
     event.preventDefault();
-    const token = document.cookie.split('=')[1];
     let queryString = window.location.search;
     let urlParams = new URLSearchParams(queryString);
     let id = urlParams.get('id');
@@ -135,8 +128,6 @@ const enviarSolicitud = async (event) => {
 
 /* Verifica en el servidor si ya existe una solicitud de amistad */
 const revisarSolicitud = async (id) => {
-    const token = document.cookie.split('=')[1];
-
     try {
         const response = await fetch(`http://localhost:3000/solicitud/${id}`, {
           method: 'GET',
@@ -153,34 +144,6 @@ const revisarSolicitud = async (id) => {
     }
 }
 
-/* Verifica en el servidor si ya existe una amistad de cierto perfil */
-const revisarAmistad = async (id) => {
-    const token = document.cookie.split('=')[1];
-
-    try {
-        const response = await fetch(`http://localhost:3000/amistad/${id}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
-            'Content-Type': 'application/json'           
-          },
-        });
-        if (response.status === 200) {
-            amistadCreada();
-        }
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-/* Cambiamos el boton en funcion de si ya son amigos*/
-const amistadCreada = () => {
-    const botonAgregar = document.getElementById('botonAgregar');
-    botonAgregar.innerHTML = " Amigos";
-    botonAgregar.className = 'amigos';
-    botonAgregar.removeAttribute('onclick');
-}
-
 /* Cambiamos el boton en funcion de si ya se envio una solicitud de amistad*/
 const solicitudEnviada = (id) => {
     const botonAgregar = document.getElementById('botonAgregar');
@@ -192,11 +155,8 @@ const solicitudEnviada = (id) => {
 
 /* Funcion para cancelar una solicitud de amistad*/
 const cancelarSolicitud = async (id) => {
-    // event.preventDefault();
-    const token = document.cookie.split('=')[1];
-    
     try {
-        const response = await fetch(`http://localhost:3000/solicitud/${id}`, {
+        const response = await fetch(`http://localhost:3000/solicitud/cancelar/${id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
@@ -216,5 +176,61 @@ const cancelarSolicitud = async (id) => {
         }
     } catch (err) {
         console.log(err);
+    }
+}
+
+/* Verifica en el servidor si ya existe una amistad de cierto perfil */
+const revisarAmistad = async (id) => {
+    try {
+        const response = await fetch(`http://localhost:3000/amistad/${id}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
+            'Content-Type': 'application/json'           
+          },
+        });
+        if (response.status === 200) {
+            amistadCreada(id);
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+/* Cambiamos el boton en funcion de si ya son amigos*/
+const amistadCreada = (id) => {
+    const botonAgregar = document.getElementById('botonAgregar');
+    botonAgregar.innerHTML = " Amigos";
+    botonAgregar.className = 'amigos';
+    botonAgregar.removeAttribute('onclick');
+    botonAgregar.setAttribute('onclick', `eliminarAmistad(${id})`);
+}
+
+const eliminarAmistad = async (id) => {
+    
+    if (window.confirm("¿Eliminar de tus amigos?")) {
+    
+        try {
+            const response = await fetch(`http://localhost:3000/amistad/${id}`, {
+              method: 'DELETE',
+              headers: {
+                'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
+                'Content-Type': 'application/json'           
+              },
+            });
+            if (response.status === 200) {
+                response.json().then(json => {
+                    alert(json);
+                    window.location.reload(true);
+                });
+            } else {
+                response.json().then(json => {
+                    alert(json);
+                    return;
+                });
+            }
+        } catch (err) {
+            console.log(err);
+        }
     }
 }
