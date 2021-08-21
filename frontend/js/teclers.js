@@ -7,7 +7,7 @@ window.onload = async function () {
 }
 
 const cargarTeclers = async (categoria) => {
-    const response = await fetch(`http://localhost:3000/usuarios/`+categoria);
+    const response = await api.fetchGet(`usuarios/${categoria}`);
 
     let templateBody = document.getElementById('template').content;
     let teclers_gallery = document.getElementById('teclers');

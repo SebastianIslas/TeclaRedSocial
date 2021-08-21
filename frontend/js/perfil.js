@@ -29,7 +29,7 @@ window.onload = async () =>{
 
 /* Obtiene los datos del usuario seleccionado */
 const cargarDatos = async (id) => {
-    const response = await fetch(`http://localhost:3000/usuario/`+id);
+    const response = await api.fetchGet(`usuario/${id}`);
     response.json().then(data => {
         renderDatos(data);
     });
@@ -94,53 +94,21 @@ const valorar = async (id) => {
     });
 }
 
-/* Accion cuando el usuario da click en 'seguir' */
+/* Accion cuando el usuario da click en 'agregar' */
 const enviarSolicitud = async (event) => {
     event.preventDefault();
     let queryString = window.location.search;
     let urlParams = new URLSearchParams(queryString);
     let id = urlParams.get('id');
     const data = { id };
-    try {
-        const response = await fetch('http://localhost:3000/solicitud', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
-            'Content-Type': 'application/json'           
-          },
-          body: JSON.stringify(data)
-        });
-        if (response.status === 201) {
-            response.json().then(json => {
-                alert('Solicitud enviada');
-                window.location.reload(true);
-            });
-        } else {
-            response.json().then(json => {
-                alert(json);
-                return;
-            });
-        }
-    } catch (err) {
-        console.log(err);
-    }
+    api.fetchPost(window.location.reload(true), data, 'solicitud');
 }
 
 /* Verifica en el servidor si ya existe una solicitud de amistad */
 const revisarSolicitud = async (id) => {
-    try {
-        const response = await fetch(`http://localhost:3000/solicitud/${id}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
-            'Content-Type': 'application/json'           
-          },
-        });
-        if (response.status === 200) {
-            solicitudEnviada(id); //Si existe una solicitud, cambiamos el boton
-        }
-    } catch (err) {
-        console.log(err);
+    const response = await api.fetchGet(`solicitud/${id}`);
+    if (response.status === 200) {
+        solicitudEnviada(id); //Si existe una solicitud, cambiamos el boton
     }
 }
 
@@ -155,45 +123,15 @@ const solicitudEnviada = (id) => {
 
 /* Funcion para cancelar una solicitud de amistad*/
 const cancelarSolicitud = async (id) => {
-    try {
-        const response = await fetch(`http://localhost:3000/solicitud/cancelar/${id}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
-            'Content-Type': 'application/json'           
-          },
-        });
-        if (response.status === 200) {
-            response.json().then(json => {
-                alert(json);
-                window.location.reload(true);
-            });
-        } else {
-            response.json().then(json => {
-                alert(json);
-                return;
-            });
-        }
-    } catch (err) {
-        console.log(err);
-    }
+    await api.fetchDelete(`solicitud/cancelar/${id}`);
+    window.location.reload(true);
 }
 
 /* Verifica en el servidor si ya existe una amistad de cierto perfil */
 const revisarAmistad = async (id) => {
-    try {
-        const response = await fetch(`http://localhost:3000/amistad/${id}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
-            'Content-Type': 'application/json'           
-          },
-        });
-        if (response.status === 200) {
-            amistadCreada(id);
-        }
-    } catch (err) {
-        console.log(err);
+    const response = await api.fetchGet(`amistad/${id}`);
+    if (response.status === 200) {
+        amistadCreada(id); //Si existe una solicitud, cambiamos el boton
     }
 }
 
@@ -209,28 +147,7 @@ const amistadCreada = (id) => {
 const eliminarAmistad = async (id) => {
     
     if (window.confirm("¿Eliminar de tus amigos?")) {
-    
-        try {
-            const response = await fetch(`http://localhost:3000/amistad/${id}`, {
-              method: 'DELETE',
-              headers: {
-                'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
-                'Content-Type': 'application/json'           
-              },
-            });
-            if (response.status === 200) {
-                response.json().then(json => {
-                    alert(json);
-                    window.location.reload(true);
-                });
-            } else {
-                response.json().then(json => {
-                    alert(json);
-                    return;
-                });
-            }
-        } catch (err) {
-            console.log(err);
-        }
+        await api.fetchDelete(`amistad/${id}`);
     }
+    window.location.reload(true);
 }

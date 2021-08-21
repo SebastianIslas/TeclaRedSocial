@@ -77,7 +77,7 @@ const crearAmistad = async (req, res) => {
     try {
         await Amistad.create({ id_amigo1, id_amigo2 });  
         await Solicitud.destroy({ where: { id_solicitante: id_amigo1, id_solicitado: id_amigo2 } }); //Se elimina la solitud correspondiente
-        res.status(200).json('Amistad creada');
+        res.status(201).json('Amistad creada');
     } catch (err) {
         res.status(500).json('Error al crear la amistad');
     }

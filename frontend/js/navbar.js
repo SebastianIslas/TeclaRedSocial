@@ -51,22 +51,12 @@ const cambiarNavBar = () => {
 
 /* Solicita al backend la cantidad de notificaciones que tiene un usuario y las muestra en la navbar */
 const contadorNotificaciones = async (linkAlerta) => {
-  try {
-      const response = await fetch(`http://localhost:3000/solicitud`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
-          'Content-Type': 'application/json'           
-        },
-      });
-      response.json().then(data => {
-        if (data.length > 0) {
-          linkAlerta.innerHTML += ` ${data.length}`;
-        }
-      });
-  } catch (err) {
-      console.log(err);
-  }
+  const response = await api.fetchGet('solicitud')
+  response.json().then(data => {
+    if (data.length > 0) {
+      linkAlerta.innerHTML += ` ${data.length}`;
+    }
+  });
 }
 
 cambiarNavBar();

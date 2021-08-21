@@ -1,25 +1,19 @@
-/* Obtenemos las solicitudes de amistad de un usuario */
-const obtenerNotificacion = async () => {
-  try {
-      const response = await fetch(`http://localhost:3000/solicitud`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
-          'Content-Type': 'application/json'           
-        },
-      });
-      response.json().then(data => {
-        if (data.length > 0) {
-          document.getElementById('contNotificaciones').innerHTML = '';
-          data.forEach(solicitud => {
-            renderSolicitud(solicitud);
-          });
-          
-        }        
-      });
-  } catch (err) {
-      console.log(err);
-  }
+
+crearAmistad = async (id_solicitante) => {
+  const data = { id_solicitante };
+  api.fetchPost(window.location.reload(true), data, 'amistad');
+}
+
+const obtenerSolicitudes = async () => {
+  const response = await api.fetchGet('solicitud');
+  response.json().then(data => {
+    if (data.length > 0) {
+      document.getElementById('contNotificaciones').innerHTML = '';
+      data.forEach(solicitud => {
+          renderSolicitud(solicitud);
+      });            
+    }   
+  });
 }
 
 /* Desplegamos en pantalla cada solicitud */
@@ -41,13 +35,13 @@ const renderSolicitud = (solicitud) => {
   const aceptarBtn = document.createElement('button');
   aceptarBtn.innerHTML = 'Aceptar';
   aceptarBtn.className = 'btn btn-success';
-  aceptarBtn.setAttribute('onclick', `aceptarAmistad(${solicitud.id})`);
+  aceptarBtn.setAttribute('onclick', `crearAmistad(${solicitud.id})`);
   divBotones.appendChild(aceptarBtn);
 
   const rechazarBtn = document.createElement('button');
   rechazarBtn.innerHTML = 'Rechazar';
   rechazarBtn.className = 'btn btn-danger';
-  rechazarBtn.setAttribute('onclick', `rechazarAmistad(${solicitud.id})`);
+  rechazarBtn.setAttribute('onclick', `rechazarSolicitud(${solicitud.id})`);
   divBotones.appendChild(rechazarBtn);
 
   card.appendChild(divBotones);
@@ -55,52 +49,9 @@ const renderSolicitud = (solicitud) => {
   contNotificaciones.appendChild(card);
 }
 
-/* El usuario acepta una solicitud */
-const aceptarAmistad = async (id_solicitante) => {
-  const data = { id_solicitante };
-  try {
-      const response = await fetch('http://localhost:3000/amistad', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
-          'Content-Type': 'application/json'           
-        },
-        body: JSON.stringify(data)
-      });
-      if (response.status === 200) {
-          window.location.reload(true);
-      } else {
-          response.json().then(json => {
-              alert(json);
-              return;
-          });
-      }
-  } catch (err) {
-      console.log(err);
-  }
+const rechazarSolicitud = (id) => {
+  api.fetchDelete(`solicitud/rechazar/${id}`);
+  window.location.reload(true);
 }
 
-/* El usuario rechaza una solicitud */
-const rechazarAmistad = async (id_solicitante) => {
-  try {
-      const response = await fetch(`http://localhost:3000/solicitud/rechazar/${id_solicitante}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`, //Mandamos el token para que el server lo valide
-          'Content-Type': 'application/json'           
-        },
-      });
-      if (response.status === 200) {
-          window.location.reload(true);
-      } else {
-          response.json().then(json => {
-              alert(json);
-              return;
-          });
-      }
-  } catch (err) {
-      console.log(err);
-  }
-}
-
-obtenerNotificacion();
+obtenerSolicitudes();

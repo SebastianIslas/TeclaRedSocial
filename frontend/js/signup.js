@@ -1,5 +1,5 @@
 /* Funcion llamada cuando un usuario se quiere registrar */
-const registro = (event) => {
+const registro = async (event) => {
     event.preventDefault();
     const nombre = document.getElementById('nombre').value;
     const apellido = document.getElementById('apellido').value;
@@ -30,31 +30,7 @@ const registro = (event) => {
         hobbies
     };    
     validarSignIn(data); //Verifica que los datos insertados sean correctos. 
-    fetchRegistro(data);    
-}
-
-/* Interactua con el servidor para registrar un usuario */
-const fetchRegistro = async (data) => {
-    try {
-        const response = await fetch('http://localhost:3000/usuarios', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'           
-          },
-          body: JSON.stringify(data)
-        });
-        if (response.status === 200) {
-            response.json().then(json => {
-                alert('Usuario creado con exito');
-                fetchLogin(data);
-            });
-        } else {
-            response.json().then(json => {
-                alert(json);
-                return;
-            });
-        }
-    } catch (err) {
-        console.log(err);
-    }
+    await api.fetchPost(alert('Usuario creado con exito'), data, 'usuarios'); //Hacemos la solicitud al backend
+    const login = new Login(data.email, data.password);
+    login.iniciarSesion(); //Loggeamos al usuario
 }
