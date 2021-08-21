@@ -98,8 +98,8 @@ const actualizarUsuario = async (req, res) => {
     const { nombre, descripcion, email, password, ciudad, pais, edad, estudios, idiomas, linkedin, hobbies, categoria, rol} = req.body;
     try {
         Usuarios.update({
-            nombre,
             descripcion,
+            nombre,
             email,
             password,
             ciudad,

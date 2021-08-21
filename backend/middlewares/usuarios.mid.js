@@ -37,7 +37,7 @@ const validarToken = (req, res, next) => {
         req.id = jwt.verify(token, 'secretkey').id_usuario; //VErifica que sea un token valido y asigna el id a una variable
         next();
     } catch (err) {
-        res.status(500).json(err);
+        res.status(401).json(err);
     }
 }
 

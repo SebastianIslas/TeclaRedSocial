@@ -30,7 +30,7 @@ const registro = async (event) => {
         hobbies
     };    
     validarSignIn(data); //Verifica que los datos insertados sean correctos. 
-    await api.fetchPost(alert('Usuario creado con exito'), data, 'usuarios'); //Hacemos la solicitud al backend
+    await api.fetchPost(alert('Usuario creado con exito'), data, 'usuario'); //Hacemos la solicitud al backend
     const login = new Login(data.email, data.password);
     login.iniciarSesion(); //Loggeamos al usuario
 }
