@@ -80,3 +80,13 @@ function validarSignIn(data) {
         return;
     }
 }
+
+/* Validacion correspondiente a una entrada de texto (input) */
+function validarOpinion(data) {
+    if(data === null || data == 0 || /^\s+$/.test(data) || data.length <15) {
+        alert('La opinion debe ser de al menos 15 caracteres');
+        return false;
+    } else{
+        return true;
+    }
+}

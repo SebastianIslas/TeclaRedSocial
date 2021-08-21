@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const path = require('path');
 const { Usuarios } = require('../models/usuarios.models');
 const { Amistad } = require ('../models/amistad.models');
+const { Opiniones } = require ('../models/opiniones.models');
 const { setHabilidadesDefault } = require('../controllers/habilidades.controllers');
 const { crearJWT } = require('../services/crearJWT.service');
 
@@ -162,6 +163,47 @@ const agregarFoto = async (req, res) => {
     res.redirect('http://127.0.0.1:5500/frontend/mi-perfil.html') //Redirige a la ventana "mi perfil"
 }
 
+const opinarUsuario = async (req, res) => {
+    try {
+        const id_evaluador = req.id
+        const id_usuario = req.params.id; 
+        const opinion = req.body.opinion;
+        await Opiniones.create( {
+            id_evaluador: id_evaluador,
+            id_usuario: id_usuario,
+            opinion: opinion
+        })
+        res.status(201).json('Opinion recibida con exito');
+    } catch (error) {
+        res.status(400).json('Problema al publicar la opinion ' + err.message);        
+    }
+}
+
+const obtenerOpinionesUsuario = async(req, res) =>{
+    try {
+        let id_usuario = req.params.id;
+        console.log("ENTO")
+        const opiniones = await Opiniones.findAll({
+            attributes: {
+                exclude: ['id_usuario']
+            },
+            where: { id_usuario: id_usuario}
+        });
+        for (const opinion of opiniones) {
+            console.log(opinion.id_evaluador)
+            evaluador = await Usuarios.findOne({
+                atributes: ['nombre'],
+                where: { id: opinion.id_evaluador}
+            })
+            console.log(evaluador.nombre);
+            opinion.id_evaluador = evaluador.nombre
+        }
+        res.status(200).json(opiniones);
+    } catch (err) {
+        res.status(400).json('Problema al leer los usuario: ' + err.message);
+     }
+}
+
 module.exports = { 
     crearUsuario,
     obtenerUsuarios,
@@ -170,5 +212,7 @@ module.exports = {
     actualizarUsuario,
     eliminarUsuario,
     loginUsuario,
-    agregarFoto
+    agregarFoto,
+    opinarUsuario,
+    obtenerOpinionesUsuario
 }

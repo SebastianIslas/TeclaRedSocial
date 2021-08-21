@@ -43,7 +43,6 @@ class ValidacionesService{
                 promedio2 = promedio2 + evaluacion.evaluacion
                 console.log(evaluacion.evaluacion)
                 i++;
-//                console.log("PROM" + promedio2 + " I : " + i)
             })
             promedio = promedio2/i;
             console.log(promedio)

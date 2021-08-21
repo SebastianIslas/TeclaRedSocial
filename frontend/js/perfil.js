@@ -4,7 +4,7 @@ window.onload = async () =>{
     let urlParams = new URLSearchParams(queryString);
     let id = urlParams.get('id');
     cargarDatos(id);
-    /* Habilita la opción de valorar si esta logeado y no es el mismo usuario  */
+    /* Habilita la opción de valorar y opinion si esta logeado y no es el mismo usuario  */
     const cookie = document.cookie.split('=');
     if (cookie[0] === 'token') {
         const response = await fetch(`http://localhost:3000/usuario`, {
@@ -19,11 +19,14 @@ window.onload = async () =>{
                 document.getElementById('botonValorar').style.display = 'none';
             } else{
                 document.getElementById('botonValorar').setAttribute('onclick','habilidadesValorarRender('+id+')');
+                document.getElementById('formOpinar').style.display = 'block';
+                document.getElementById('botonOpinion').setAttribute('onclick','opinarSobreTecler('+id+')');
+
             }
-        });    
+        });
+        revisarSolicitud(id);
+        revisarAmistad(id);
     }
-    revisarSolicitud(id);
-    revisarAmistad(id);
 }
 
 
@@ -33,6 +36,11 @@ const cargarDatos = async (id) => {
     response.json().then(data => {
         renderDatos(data);
     });
+    const opiniones = await api.fetchGet(`usuario/opiniones/${id}`);
+    opiniones.json().then(data => {
+        renderOpiniones(data);
+    });
+
 }
 
 const renderDatos = (data) =>{
@@ -75,6 +83,7 @@ const habilidadesValorarRender = async (id) =>{
     document.getElementById('valorar').setAttribute('onclick','valorar('+id+')');
 }
 
+
 //Recibe id de usuario a valorar
 const valorar = async (id) => {
     const cookie = document.cookie.split('=');
@@ -92,6 +101,37 @@ const valorar = async (id) => {
         },
         body: JSON.stringify(data)
     });
+    let res = await response.json();
+    alert(res);
+    window.location.reload();
+}
+
+//Recibe id de usuario a valorar
+const opinarSobreTecler = async (id) => {
+    let opinion = document.getElementById('opinion').value;
+    if(validarOpinion(opinion)){
+        console.log("entro")
+        let data = {
+            opinion: opinion
+        }
+        api.fetchPost(function(){
+            alert('Tu opinion ha sido recibida con exito')
+        }, data, `usuario/opinar/${id}`);
+    }
+}
+
+const renderOpiniones = async (data) => {
+    console.log(data)
+    let templateLi = document.querySelector('#opinones-li').content;
+    let ul_opiniones = document.getElementById('opiniones-recibidas');
+    const fragment = document.createDocumentFragment();
+    data.forEach(opinion => {
+        templateLi.querySelector('h3').textContent = opinion.id_evaluador;
+        templateLi.querySelector('textarea').textContent = opinion.opinion;
+        const clone = templateLi.cloneNode(true);
+        fragment.appendChild(clone);
+    })
+    ul_opiniones.appendChild(fragment);
 }
 
 /* Accion cuando el usuario da click en 'agregar' */
@@ -151,3 +191,4 @@ const eliminarAmistad = async (id) => {
     }
     window.location.reload(true);
 }
+

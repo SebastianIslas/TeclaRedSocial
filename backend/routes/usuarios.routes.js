@@ -1,5 +1,11 @@
 /* Se importan los middlewares */
-const { checkDatosAlta, correoExistente, validarToken, upload } = require('../middlewares/usuarios.mid');
+const { 
+    checkDatosAlta, 
+    correoExistente,
+    validarToken,
+    upload,
+    checkOpinion
+ } = require('../middlewares/usuarios.mid');
 /* Se importan los controladores */
 const {
     crearUsuario,
@@ -8,9 +14,10 @@ const {
     obtenerUnUsuario,
     actualizarUsuario,
     eliminarUsuario,
-
     loginUsuario,
-    agregarFoto
+    agregarFoto,
+    opinarUsuario,
+    obtenerOpinionesUsuario
 } =require('../controllers/usuarios.controllers')
 
 
@@ -24,8 +31,11 @@ module.exports = (app) => {
     
     app.get('/usuarios', obtenerUsuarios); //Obtener un conjunto de usuarios
     app.get('/usuarios/:categoria', obtenerUsuariosCategoria); //Obtener un conjunto de usuarios de una categoria
+    
 
     app.post('/images', upload, agregarFoto); //Recibe el form para subir una foto
+    app.post('/usuario/opinar/:id',validarToken, checkOpinion, opinarUsuario); //Recibe el form para opinar sobre un usuario
+    app.get('/usuario/opiniones/:id', obtenerOpinionesUsuario); //Obtiene las opiniones que ha tenido el usuario
     
     /* Login Usuario */
     app.post('/login', loginUsuario);

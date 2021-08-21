@@ -44,7 +44,6 @@ const agregarHabilidadExtra = async (req, res) => {
 const getHabUsuario = async (req, res) => {
     try {
         const id_usuario = req.params.id;
-        console.log(id_usuario)
         const habilidades = await Habilidades.findAll({
             where : {id_usuario: id_usuario} 
         });
@@ -52,19 +51,11 @@ const getHabUsuario = async (req, res) => {
     } catch (err) {
         res.status(400).json('Problema al obtener las habilidades del usuario ' + err.message);
     }
-    /*
-            const categorias = await Habilidades.findAll({ 
-                attributes: ['categoria'],
-                group: ['categoria'],
-                where: { id_usuario },
-             });
-    */
 }
 /* Obtiener todas las categorias de habilidades distintas que tenga el usuario */
 const getCatHabUsuario = async (req, res) => {
     try {
         const id_usuario = req.params.id;
-        console.log(id_usuario)
         const categorias = await Habilidades.findAll({ 
             attributes: ['categoria'],
             group: ['categoria'],
@@ -107,8 +98,6 @@ const evaluarUsuario = async (req, res) =>{
     try {
         let id_evaluador = req.id;
         let validar = await validacionesService.evaluarUsuario(id_evaluador, req.body);
-        console.log("SSSSSSSSSSSSSSSSSSSSSSSSS")
-        console.log(validar)
         if(!validar)
             throw new Error(validar)
         res.status(200).json('Usuario evaluado con exito.')

@@ -95,6 +95,8 @@
                 <!-- Habilidades Section Heading-->
                 <h2 class="page-section-heading text-center text-uppercase">Habilidades</h2>
                 <!-- Icon Divider-->
+                <!-- Onclick se le da en perfil.js, habilitado solo para empresas-->
+                <button class="boton-login" id="botonValorar" data-bs-toggle="modal" data-bs-target="#formValorar"> Validar </button> <br>
                 <div class="divider-custom">
                     <div class="divider-custom-line"></div>
                     <div class="divider-custom-icon"><i class="fa fa-code"></i></div>
@@ -128,8 +130,6 @@
             <div class="container">
                 <!-- Contact Section Heading-->
                 <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Opiniones</h2>
-                <!-- Onclick se le da en perfil.js-->
-                <button class="boton-login" id="botonValorar" data-bs-toggle="modal" data-bs-target="#formValorar"> Valorar </button> <br>
                 <!-- Icon Divider-->
                 <div class="divider-custom">
                     <div class="divider-custom-line"></div>
@@ -137,7 +137,30 @@
                     <div class="divider-custom-line"></div>
                 </div>
                 <div>
-                    OPINIONES DE LA TABLA AQUI
+                    <form id="formOpinar" style="display: none">  <!-- Se habilita en perfil.js si no es el mismo usuario viendo su perfil, habilitado para empresas y usuarios-->
+                        <div class="container" style ="background-color: #2c3e50; color: white;border-radius: 15px">
+                            <h1>DEJA TU OPINIÓN SOBRE EL TECLER</h1>
+                            <textarea name="opinion" id="opinion" style="width: 100%; border-radius: 15px; resize:none"></textarea>
+                            <button type ="button" class="boton-login" id="botonOpinion"> Compartir </button> <br>
+                        </div>
+                    </form>
+                    <br>
+                    <H1>Opiniones recibidas:</H1>
+                    <ul class="opiniones-recibidas" id ="opiniones-recibidas" style ="list-style: none; margin:0%; padding:0%;">
+                       
+                        <template id="opinones-li">
+                        <div class="container" style ="background-color: #2c3e50; color: white;border-radius: 15px">
+                            <li>
+                                <h3 class="titulo">TECLER OPINADOR</h3>
+                                <textarea style ="border-radius: 15px; height: 150px; width: 90%; resize:none; background-color: white" disabled>
+                                    OPINION AQUI</textarea>
+                            </li>
+                        </div>
+                        <br>
+                        </template>
+
+
+                    </ul>
                 </div>
             </div>
         </section>
@@ -219,7 +242,7 @@
             <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Evaluar Usuari</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Evaluar Usuario</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <!-- Icon Divider-->
@@ -246,8 +269,6 @@
                             </template>
 
                         </ul>
-                        <span>DEJA TU OPINIÓN SOBRE EL TECLER</span>
-                        <textarea name="opinion" id="opinion" cols="30" rows="10" style="resize:none"></textarea>
                     </form>
                     <!--onclick definido en perfil.js-->
                     <button type="button" class="btn btn-primary" id="valorar">Valorar</button>
@@ -262,6 +283,7 @@
         <script src="js/api.js"></script>
         <script src="js/navbar.js"></script>
         <script src="js/habilidades.js"></script>
+        <script src="js/validaciones.js"></script>
         <script src="js/perfil.js"></script>
 
     </body>

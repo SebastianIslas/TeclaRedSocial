@@ -18,7 +18,7 @@ class API {
                 callback();
             } else {
                 response.json().then(json => {
-                    alert(json);
+                    console.log(json);
                     return;
                 });
             }

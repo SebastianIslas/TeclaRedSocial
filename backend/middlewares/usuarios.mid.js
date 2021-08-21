@@ -1,4 +1,5 @@
 const { altaUsuarioDTO } = require('../dto/usuarios/alta.dto');
+const { validarOpinion } = require('../dto/usuarios/usuario.dto');
 const { Usuarios } = require('../models/usuarios.models');
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
@@ -55,4 +56,20 @@ const upload = multer( {
     dest: "../frontend/assets/profile-img"
 }).single('image');
 
-module.exports = { checkDatosAlta, correoExistente, validarToken, upload }
+
+// Valdia que la opinion sea correcta
+const checkOpinion = async (req, res, next) => {
+    try{
+        await Joi.attempt(req.body, validarOpinion, 'Los datos enviados no son correctos');
+        return next();
+    } catch (err) {
+        res.status(500).json(err);
+    }  
+}
+module.exports = { 
+    checkDatosAlta,
+    correoExistente,
+    validarToken,
+    upload,
+    checkOpinion
+ }
