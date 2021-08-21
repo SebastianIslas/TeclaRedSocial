@@ -1,3 +1,6 @@
+const express = require('express');
+const app = express();
+
 const {
     agregarHabilidadExtra,
     getHabUsuario,
@@ -7,20 +10,20 @@ const {
     eliminarHabilidad,
     evaluarUsuario,
 } = require('../controllers/habilidades.controllers')
-const { validarToken } = require('../middlewares/usuarios.mid');
+const { validarToken } = require('../auth/middlewares/token.midd');
 const { checkEvaluacion, checkTit, checkHabEvaluacionValidas } = require('../middlewares/hab.mid');
 
-module.exports = (app) => {
-    app.post('/habilidades/extra', validarToken, checkTit, agregarHabilidadExtra);
-    app.get('/habilidades/:id', getHabUsuario);
-    app.get('/habilidades/:id/categorias', getCatHabUsuario);
-    app.put('/habilidades/:id/titulo', validarToken, checkTit, actualizarTitulo);
-    
-    //Valua la habilidad de un usuario (el promedio)
-    app.put('/habilidades/:id/validar', validarToken, checkEvaluacion, evaluarHabilidad);
+app.post('/habilidades/extra', validarToken, checkTit, agregarHabilidadExtra);
+app.get('/habilidades/:id', getHabUsuario);
+app.get('/habilidades/:id/categorias', getCatHabUsuario);
+app.put('/habilidades/:id/titulo', validarToken, checkTit, actualizarTitulo);
 
-    //Valua las habilidades de un usuario y la opinion del mismo (todas)
-    app.post('/habilidades/:id/validar', validarToken, checkHabEvaluacionValidas,  evaluarUsuario);
-    
-    app.delete('/habilidades/:id', validarToken, eliminarHabilidad);
-}
+//Valua la habilidad de un usuario (el promedio)
+app.put('/habilidades/:id/validar', validarToken, checkEvaluacion, evaluarHabilidad);
+
+//Valua las habilidades de un usuario y la opinion del mismo (todas)
+app.post('/habilidades/:id/validar', validarToken, checkHabEvaluacionValidas,  evaluarUsuario);
+
+app.delete('/habilidades/:id', validarToken, eliminarHabilidad);
+
+module.exports = app;

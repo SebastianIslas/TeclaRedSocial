@@ -5,7 +5,7 @@ const crearJWT = (id_usuario = '') => {
         //verificar solo el id_usuario
         const payload = { id_usuario };
         jwt.sign(payload, 'secretkey', {
-            expiresIn: '999h'
+            expiresIn: '99h'
         }, (err, token) => {
             if (err) {
                 console.log(err);

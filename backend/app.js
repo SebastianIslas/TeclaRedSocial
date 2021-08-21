@@ -27,7 +27,5 @@ app.listen(process.env.PORT, async () => {
     }
 })
 
-usuariosRoutes(app);
+app.use(require('./routes/index.routes'));
 proyectosRouter(app);
-habilidadesRoutes(app);
-amistadRoutes(app);
