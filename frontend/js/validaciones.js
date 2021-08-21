@@ -29,56 +29,57 @@ function validarPassword(password) {
 function validarSignIn(data) {
     if (validarTxt(data.nombre)) {
         alert('Verificar el campo nombre');
-        return;
+        return false;
     }
     if (validarTxt(data.apellido)) {
         alert('Verificar el campo apellidos');
-        return;
+        return false;
     }
     if (validarEmail(data.email)) {
         alert('Verificar el campo email');
-        return;
+        return false;
     }
-    if ( data.password.length < 8 ) {
+    if (validarPassword(data.password)) {
         alert('La contraseña debe tener una longitud mayor a 8');
-        return;
+        return false;
     } 
     if (validarTxt(data.ciudad)) {
         alert('Verificar el campo residencia');
-        return;
+        return false;
     }
     if (validarTxt(data.pais)) {
         alert('Verificar el campo residencia');
-        return;
+        return false;
     }
     if (data.categoria === 'categoria') {
         alert('Debes seleccionar una categoria');
-        return;
+        return false;
     }
     if (data.rol === 'rol') {
         alert('Debes seleccionar un rol');
-        return;
+        return false;
     }
     if (data.edad === 'edad') {
         alert('Debes seleccionar una edad');
-        return;
+        return false;
     }
     if (validarTxt(data.estudios)) {
         alert('Verificar el campo estudios');
-        return;
+        return false;
     }
     if (validarTxt(data.idiomas)) {
         alert('Verificar el campo idiomas');
-        return;
+        return false;
     }
     if (validarTxt(data.linkedin)) {
         alert('Verificar el campo linkedin');
-        return;
+        return false;
     }
     if (validarTxt(data.hobbies)) {
         alert('Verificar el campo hobbies');
-        return;
+        return false;
     }
+    return true;
 }
 
 /* Validacion correspondiente a una entrada de texto (input) */

@@ -28,9 +28,10 @@ const registro = async (event) => {
         idiomas, 
         linkedin, 
         hobbies
-    };    
-    validarSignIn(data); //Verifica que los datos insertados sean correctos. 
-    await api.fetchPost(alert('Usuario creado con exito'), data, 'usuario'); //Hacemos la solicitud al backend
-    const login = new Login(data.email, data.password);
-    login.iniciarSesion(); //Loggeamos al usuario
+    };
+    if (validarSignIn(data)) { //Verifica que los datos insertados sean correctos. 
+        await api.fetchPost(alert('Usuario creado con exito'), data, 'usuario'); //Hacemos la solicitud al backend
+        const login = new Login(data.email, data.password);
+        login.iniciarSesion(); //Loggeamos al usuario
+    }
 }
