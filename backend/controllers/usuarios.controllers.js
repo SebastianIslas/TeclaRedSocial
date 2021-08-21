@@ -31,7 +31,7 @@ const crearUsuario = async (req, res) => {
         if(resultado){  //Crea registros en tabla habilidades para el usuario creado
             await setHabilidadesDefault(resultado .id);
         }
-        res.status(200).json('Usuario creado con exito');
+        res.status(201).json('Usuario creado con exito');
     } catch (err) {
         res.status(400).json('Problema al crear el usuario: ' + err.message);
     }
@@ -56,7 +56,11 @@ const obtenerUsuariosCategoria = async (req, res) => {
 /* Obtiene un conjunto de usuarios de la bd */
 const obtenerUsuarios = async (req, res) => {
     try {
-        const usuarios = await Usuarios.findAll({});
+        const usuarios = await Usuarios.findAll({
+            attributes: {
+                exclude: ['password']
+            },
+        });
         res.status(200).json(usuarios);
     } catch (err) {
         res.status(400).json('Problema al leer los usuario: ' + err.message);
@@ -68,7 +72,11 @@ const obtenerUnUsuario = async (req, res) => {
     try {
         const id = req.id;
         if(id != undefined) {   //Obtiene usuario en sesion
-            const usuario = await Usuarios.findOne({ where: { id } });
+            const usuario = await Usuarios.findOne({
+                attributes: {
+                    exclude: ['password']
+                },
+                where: { id } });
             res.status(200).json(usuario);
         } else{ //Obtiene datos de cualquier usuario
             const id = req.params.id;
@@ -140,9 +148,9 @@ const loginUsuario = async (req, res) => {
             await Usuarios.update({ eliminado: 0 }, { where: { id: usuario.dataValues.id } }); //En caso que el usuario este deshabilidato, lo activa
         }
         const token = await crearJWT(usuario.dataValues.id); //Genera un token para el usuario
-        return res.status(200).json(token);
+        return res.status(200).json({ token: token});
     } catch (err) {
-        res.status(400).json('Datos incorrectos.')
+        res.status(400).json({ message: 'Datos incorrectos.' })
     }
 }
 
