@@ -7,13 +7,7 @@ window.onload = async () =>{
     /* Habilita la opción de valorar si esta logeado y no es el mismo usuario  */
     const cookie = document.cookie.split('=');
     if (cookie[0] === 'token') {
-        const response = await fetch(`http://localhost:3000/usuario`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${cookie[1]}`, //Mandamos el token para que el server lo valide
-                'Content-Type': 'application/json'
-            },
-        });
+        const response = await api.fetchGet(`usuario`);
         response.json().then(data => {
             if(data.id == id){
                 document.getElementById('botonValorar').style.display = 'none';
@@ -58,7 +52,7 @@ const renderDatos = (data) =>{
 //Crea form para valorar las habilidades
 const habilidadesValorarRender = async (id) =>{
     //Obtiene habilidades de usuario a valorar
-    const response = await fetch('http://localhost:3000/habilidades/'+id);
+    const response = await api.fetchGet(`habilidades/${id}`);
     let templateLi = document.querySelector('#form-hab-li').content;
     let ul_hab = document.getElementById('ul-form-habilidad');
     const fragment = document.createDocumentFragment();
@@ -84,6 +78,7 @@ const valorar = async (id) => {
     for (p of formData) {
         data[p[0]] = p[1];
     }
+    // const response = await api.fetchPost( '', data, `habilidades/${id}/validar` )
     const response = await fetch('http://localhost:3000/habilidades/'+id+'/validar',{
         method: 'POST',
         headers: {

@@ -10,7 +10,7 @@ const {
     eliminarHabilidad,
     evaluarUsuario,
 } = require('../controllers/habilidades.controllers')
-const { validarToken } = require('../middlewares/usuarios.mid');
+const { validarToken } = require('../auth/middlewares/token.midd');
 const { checkEvaluacion, checkTit, checkHabEvaluacionValidas } = require('../middlewares/hab.mid');
 
 app.post('/habilidades/extra', validarToken, checkTit, agregarHabilidadExtra);

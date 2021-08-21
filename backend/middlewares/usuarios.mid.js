@@ -1,6 +1,5 @@
 const { altaUsuarioDTO } = require('../dto/usuarios/alta.dto');
 const { Usuarios } = require('../models/usuarios.models');
-const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 const multer = require('multer');
 const path = require('path');
@@ -30,17 +29,6 @@ const correoExistente = async (req, res, next) => {
     }
 }
 
-/* Valida que exista un token */
-const validarToken = (req, res, next) => {
-    try {
-        const token = req.headers.authorization.split(' ')[1]
-        req.id = jwt.verify(token, 'secretkey').id_usuario; //VErifica que sea un token valido y asigna el id a una variable
-        next();
-    } catch (err) {
-        res.status(401).json(err);
-    }
-}
-
 /* Modifica el nombre de la foto que recibio */
 const storage = multer.diskStorage({
     destination: "../frontend/assets/profile-img",
@@ -55,4 +43,4 @@ const upload = multer( {
     dest: "../frontend/assets/profile-img"
 }).single('image');
 
-module.exports = { checkDatosAlta, correoExistente, validarToken, upload }
+module.exports = { checkDatosAlta, correoExistente, upload }

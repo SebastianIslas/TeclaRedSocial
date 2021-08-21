@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const { validarToken } = require('../middlewares/usuarios.mid');
+const { validarToken } = require('../auth/middlewares/token.midd');
 
 const {
     crearSolicitud,

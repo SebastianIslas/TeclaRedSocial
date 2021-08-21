@@ -1,7 +1,7 @@
 
 //Renderiza las categorias asociadas al usuario
 const renderHabilidades = async (id) => {
-    const response = await fetch('http://localhost:3000/habilidades/'+id+'/categorias');
+    const response = await api.fetchGet(`habilidades/${id}/categorias`);
 
     let templateBody = document.getElementById('tempalte-hab-cat').content;
     let habilidades_div = document.getElementById('habilidades');
@@ -23,7 +23,7 @@ const renderHabilidades = async (id) => {
 //Carga habilidades en vista Perfil (el perfil del mismo usuario en sesion)
 const renderHabilidadesLi = async (id, categoria) => {
     //Obtiene habilidades del usuario
-    const response = await fetch('http://localhost:3000/habilidades/'+id);
+    const response = await api.fetchGet(`habilidades/${id}`);
 
     let li_template = document.getElementById('hab-cat-li').content;
     let categoria_div = document.getElementById("ul_"+categoria);
