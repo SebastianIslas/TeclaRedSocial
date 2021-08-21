@@ -185,7 +185,6 @@ module.exports = {
     obtenerUnUsuario,
     actualizarUsuario,
     eliminarUsuario,
-    loginUsuario,
     agregarFoto,
     opinarUsuario,
     obtenerOpinionesUsuario,

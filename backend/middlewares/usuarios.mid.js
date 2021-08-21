@@ -44,7 +44,6 @@ const upload = multer( {
     dest: "../frontend/assets/profile-img"
 }).single('image');
 
-<<<<<<< HEAD
 
 // Valdia que la opinion sea correcta
 const checkOpinion = async (req, res, next) => {
@@ -58,10 +57,6 @@ const checkOpinion = async (req, res, next) => {
 module.exports = { 
     checkDatosAlta,
     correoExistente,
-    validarToken,
     upload,
     checkOpinion
  }
-=======
-module.exports = { checkDatosAlta, correoExistente, upload }
->>>>>>> eee71337b0d489ea26bcc39e45975717d2d3e30e
