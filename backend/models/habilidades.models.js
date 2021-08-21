@@ -24,17 +24,10 @@ const Habilidades = db.define('habilidades',{
         allowNull: false,
     },
     evaluacion: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.FLOAT,
         allowNull: false,
         //Si tabla validaciones no tiene registros con este id, este campo debe ser 0
-        defaultValue: 0,    //0 = "Sin evaluacion" en front
-        validate: {
-            customValidator(value) {
-              if (value < 0 || value > 5) {
-                throw new Error("La evaluacion debe ser entre 1 y 5");
-              }
-            }
-        },
+        defaultValue: 0    //0 = "Sin evaluacion" en front
     }
 }, {
     // don't add the timestamp attributes (updatedAt, createdAt)

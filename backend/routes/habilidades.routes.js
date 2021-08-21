@@ -5,10 +5,10 @@ const {
     actualizarTitulo,
     evaluarHabilidad,
     eliminarHabilidad,
-    evaluarUsuario
+    evaluarUsuario,
 } = require('../controllers/habilidades.controllers')
 const { validarToken } = require('../middlewares/usuarios.mid');
-const { checkEvaluacion, checkTit, checkDatosEvaluacion } = require('../middlewares/hab.mid');
+const { checkEvaluacion, checkTit, checkHabEvaluacionValidas } = require('../middlewares/hab.mid');
 
 module.exports = (app) => {
     app.post('/habilidades/extra', validarToken, checkTit, agregarHabilidadExtra);
@@ -19,8 +19,8 @@ module.exports = (app) => {
     //Valua la habilidad de un usuario (el promedio)
     app.put('/habilidades/:id/validar', validarToken, checkEvaluacion, evaluarHabilidad);
 
-    //Valua las habilidades de un usuario y la opinion del mismo
-    app.post('/habilidades/:id/validar', validarToken, checkDatosEvaluacion, evaluarUsuario);
+    //Valua las habilidades de un usuario y la opinion del mismo (todas)
+    app.post('/habilidades/:id/validar', validarToken, checkHabEvaluacionValidas,  evaluarUsuario);
     
     app.delete('/habilidades/:id', validarToken, eliminarHabilidad);
 }

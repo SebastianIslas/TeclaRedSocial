@@ -105,48 +105,31 @@ const actualizarTitulo = async (req, res) => {
 //Evalua las habilidades de un usuario y la opinion del mismo
 const evaluarUsuario = async (req, res) =>{
     try {
-        console.log('entro');
-/*
-        for (let key in req.body) {
-            console.log(key);
-            if (req.body.hasOwnProperty(key)) {
-                console.log('key')
-                item = req.body[key];
-                console.log('value')
-              console.log(item);
-            }
-          }
-*/
-          res.status(200).json('BIEN')
-        } catch (error) {
+        let id_evaluador = req.id;
+        let validar = await validacionesService.evaluarUsuario(id_evaluador, req.body);
+        console.log("SSSSSSSSSSSSSSSSSSSSSSSSS")
+        console.log(validar)
+        if(!validar)
+            throw new Error(validar)
+        res.status(200).json('Usuario evaluado con exito.')
+    } catch (error) {
         res.status(500).json(error.message)
     }
 }
 
 
-//Evalua una habilidad que no sea propia del usuario en sesion
+//Evalua solo una habilidad
 const evaluarHabilidad = async (req, res) =>{
     try {        
         const id_hab = req.params.id;
         const id_evaluador = req.id;
         const { evaluacion } = req.body;
-        //Obtiene el usuario asociado a la habilidad que se desea evaluar
-        let usuario = await Habilidades.findOne({
-            attributes: ['id_usuario'],
-            where : {id: id_hab} 
-        });
-        let resultado
-        //Si es el mismo usuario que el evaluador no se permite evaluar
-        if(usuario.id_usuario == id_evaluador){
-            throw new Error ('No puedes evaluar tus habilidades')
-        } else{
-            resultado = await Validaciones.create({ 
+        let resultado = await Validaciones.create({ 
                 id_habilidad: id_hab,
                 id_evaluador: id_evaluador,
                 evaluacion: evaluacion
             });
             
-        }
         if (resultado) {
             res.status(200).json('Habilidad evaluada con exito');
         }else {
