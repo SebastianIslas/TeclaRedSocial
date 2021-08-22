@@ -34,7 +34,8 @@ const agregarHabilidadExtra = async (req, res) => {
             categoria: 'Conocimientos Extras',
             titulo: titulo
         })
-        res.status(200).json(resultado);
+        res.status(201
+            ).json(resultado);
     } catch (err) {
         res.status(400).json('Problema al agregar la habilidad ' + err.message);
     }
@@ -93,14 +94,14 @@ const actualizarTitulo = async (req, res) => {
 }
 
 
-//Evalua las habilidades de un usuario y la opinion del mismo
+//Evalua las habilidades de un usuario
 const evaluarUsuario = async (req, res) =>{
     try {
         let id_evaluador = req.id;
         let validar = await validacionesService.evaluarUsuario(id_evaluador, req.body);
         if(!validar)
             throw new Error(validar)
-        res.status(200).json('Usuario evaluado con exito.')
+        res.status(201).json('Usuario evaluado con exito.')
     } catch (error) {
         res.status(500).json(error.message)
     }
@@ -120,7 +121,7 @@ const evaluarHabilidad = async (req, res) =>{
             });
             
         if (resultado) {
-            res.status(200).json('Habilidad evaluada con exito');
+            res.status(201).json('Habilidad evaluada con exito');
         }else {
             throw new Error ('Datos invalidos');
         }

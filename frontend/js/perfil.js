@@ -38,7 +38,6 @@ const cargarDatos = async (id) => {
     opiniones.json().then(data => {
         renderOpiniones(data);
     });
-
 }
 
 const renderDatos = (data) =>{
@@ -91,17 +90,9 @@ const valorar = async (id) => {
     for (p of formData) {
         data[p[0]] = p[1];
     }
-    // const response = await api.fetchPost( '', data, `habilidades/${id}/validar` )
-    const response = await fetch('http://localhost:3000/habilidades/'+id+'/validar',{
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${cookie[1]}`, //Mandamos el token del usuario que valorara
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    });
-    let res = await response.json();
-    alert(res);
+    const response = await api.fetchPost( function(){
+        alert('Usuario vevaluado con exito')
+    }, data, `habilidades/${id}/validar` )
     window.location.reload();
 }
 
