@@ -48,6 +48,7 @@ const renderDatos = (data) => {
         fotoDePerfil.setAttribute('src', `./assets/profile-img/${data.foto}`);
     }
     renderHabilidades(data.id); //En script habilidades.js
+    cargarOpiniones(data.id)    //Carga opiniones del usuario
 }
 
 /* Recibe los datos que seran actualizados modificados */
@@ -81,5 +82,41 @@ const eliminarCuenta = (event) => {
         document.cookie = "token=; max-age=0"; //Cierra la sesion correspondiente
         window.location.replace("./index.html");
         alert('Usuario dado de baja con exito');
+    }
+}
+
+/* Obtiene los datos del usuario seleccionado */
+const cargarOpiniones = async (id) => {
+    const opiniones = await api.fetchGet(`usuario/opiniones/${id}`);
+    opiniones.json().then(data => {
+        renderOpiniones(data);
+    });
+}
+
+
+const renderOpiniones = async (data) => {
+    console.log(data)
+    let templateLi = document.querySelector('#opinones-li').content;
+    let ul_opiniones = document.getElementById('opiniones-recibidas');
+    const fragment = document.createDocumentFragment();
+    data.forEach(opinion => {
+        templateLi.querySelector('h3').textContent = opinion.id_evaluador;
+        templateLi.querySelector('textarea').textContent = opinion.opinion;
+        const clone = templateLi.cloneNode(true);
+        fragment.appendChild(clone);
+    })
+    ul_opiniones.appendChild(fragment);
+}
+
+const agregarHabExtra = async () =>{
+    let habilidad = document.getElementById('habilidad').value;
+    if(validarHabNombre(habilidad)){
+        let data = {
+            titulo: habilidad
+        }
+        await api.fetchPost(function(){
+            alert('Habilidad agregada con exito')
+            window.location.reload();
+        },data, 'habilidades/extra');
     }
 }
