@@ -42,7 +42,7 @@ const renderDatos = (data) =>{
     document.getElementById('categoria').textContent = data.categoria;
     document.getElementById('descripcion').textContent = data.descripcion;
     document.getElementById('email').textContent = data.email;
-    document.getElementById('linkedin').textContent = data.linkedin;
+    document.getElementById('linkedin').href = data.linkedin;
     if (data.foto) { //Si el usuario ya agrego una foto, la muestra 
         document.getElementById('foto').src = "assets/profile-img/" +data.foto;
     }
