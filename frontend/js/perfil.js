@@ -7,6 +7,7 @@ window.onload = async () =>{
     /* Habilita la opción de valorar y opinion si esta logeado y no es el mismo usuario  */
     const cookie = document.cookie.split('=');
     if (cookie[0] === 'token') {
+        console.log('logeado');
         const response = await api.fetchGet(`usuario`);
         response.json().then(data => {
             if(data.id == id){
@@ -15,11 +16,14 @@ window.onload = async () =>{
                 document.getElementById('botonValorar').setAttribute('onclick','habilidadesValorarRender('+id+')');
                 document.getElementById('formOpinar').style.display = 'block';
                 document.getElementById('botonOpinion').setAttribute('onclick','opinarSobreTecler('+id+')');
-
+                
             }
         });
         revisarSolicitud(id);
         revisarAmistad(id);
+    } else {
+        document.getElementById('botonAgregar').style.display = 'none';
+        document.getElementById('botonValorar').style.display = 'none';
     }
 }
 
